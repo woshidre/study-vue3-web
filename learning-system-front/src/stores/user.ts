@@ -6,6 +6,7 @@ export interface User {
   id: string
   username: string
   email: string
+  phone?: string
   avatar: string
   name: string
   joinDate: string
@@ -35,7 +36,7 @@ export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null)
   const isLoggedIn = ref(false)
   const learningProgressMap = ref<Map<string, LearningProgress>>(new Map())
-  
+
   // Mock用户数据
   const mockUsers = [
     {
@@ -49,35 +50,35 @@ export const useUserStore = defineStore('user', () => {
       learningProgress: {
         completedCourses: 3,
         totalStudyTime: 150,
-        certificates: 2
+        certificates: 2,
       },
       preferences: {
         language: 'zh-CN',
         notifications: true,
-        darkMode: false
-      }
-    }
+        darkMode: false,
+      },
+    },
   ]
 
   // 登录
   const login = async (username: string, password: string) => {
     try {
       // 模拟API调用延迟
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      const foundUser = mockUsers.find(u => 
-        (u.username === username || u.email === username) && u.password === password
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      const foundUser = mockUsers.find(
+        (u) => (u.username === username || u.email === username) && u.password === password,
       )
-      
+
       if (foundUser) {
         const { password: _, ...userWithoutPassword } = foundUser
         user.value = userWithoutPassword
         isLoggedIn.value = true
-        
+
         // 保存到localStorage
         localStorage.setItem('user', JSON.stringify(userWithoutPassword))
         localStorage.setItem('isLoggedIn', 'true')
-        
+
         return { success: true, message: '登录成功' }
       } else {
         return { success: false, message: '用户名或密码错误' }
@@ -100,18 +101,18 @@ export const useUserStore = defineStore('user', () => {
       if (userData.password !== userData.confirmPassword) {
         return { success: false, message: '两次密码输入不一致' }
       }
-      
-      if (mockUsers.find(u => u.username === userData.username)) {
+
+      if (mockUsers.find((u) => u.username === userData.username)) {
         return { success: false, message: '用户名已存在' }
       }
-      
-      if (mockUsers.find(u => u.email === userData.email)) {
+
+      if (mockUsers.find((u) => u.email === userData.email)) {
         return { success: false, message: '邮箱已注册' }
       }
-      
+
       // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+
       const newUser = {
         id: String(Date.now()),
         username: userData.username,
@@ -123,17 +124,17 @@ export const useUserStore = defineStore('user', () => {
         learningProgress: {
           completedCourses: 0,
           totalStudyTime: 0,
-          certificates: 0
+          certificates: 0,
         },
         preferences: {
           language: 'zh-CN',
           notifications: true,
-          darkMode: false
-        }
+          darkMode: false,
+        },
       }
-      
+
       mockUsers.push(newUser)
-      
+
       return { success: true, message: '注册成功，请登录' }
     } catch (error) {
       return { success: false, message: '注册失败，请稍后重试' }
@@ -145,7 +146,7 @@ export const useUserStore = defineStore('user', () => {
     user.value = null
     isLoggedIn.value = false
     learningProgressMap.value.clear()
-    
+
     localStorage.removeItem('user')
     localStorage.removeItem('isLoggedIn')
     localStorage.removeItem('learningProgress')
@@ -155,15 +156,15 @@ export const useUserStore = defineStore('user', () => {
   const updateProfile = async (profileData: Partial<User>) => {
     try {
       if (!user.value) return { success: false, message: '用户未登录' }
-      
+
       // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       user.value = { ...user.value, ...profileData }
-      
+
       // 更新localStorage
       localStorage.setItem('user', JSON.stringify(user.value))
-      
+
       return { success: true, message: '资料更新成功' }
     } catch (error) {
       return { success: false, message: '更新失败，请稍后重试' }
@@ -173,29 +174,29 @@ export const useUserStore = defineStore('user', () => {
   // 更新学习进度
   const updateLearningProgress = (courseId: string, lessonId: string, progress: number) => {
     if (!user.value) return
-    
+
     const currentProgress = learningProgressMap.value.get(courseId) || {
       courseId,
       lessonId,
       progress: 0,
       completedLessons: [],
-      lastStudyTime: new Date().toISOString()
+      lastStudyTime: new Date().toISOString(),
     }
-    
+
     const updatedProgress: LearningProgress = {
       ...currentProgress,
       lessonId,
       progress: Math.max(currentProgress.progress, progress),
-      lastStudyTime: new Date().toISOString()
+      lastStudyTime: new Date().toISOString(),
     }
-    
+
     // 如果课程完成，添加到已完成列表
     if (progress >= 100 && !updatedProgress.completedLessons.includes(lessonId)) {
       updatedProgress.completedLessons.push(lessonId)
     }
-    
+
     learningProgressMap.value.set(courseId, updatedProgress)
-    
+
     // 保存到localStorage
     const progressObj = Object.fromEntries(learningProgressMap.value)
     localStorage.setItem('learningProgress', JSON.stringify(progressObj))
@@ -212,12 +213,12 @@ export const useUserStore = defineStore('user', () => {
       const savedUser = localStorage.getItem('user')
       const savedLoginStatus = localStorage.getItem('isLoggedIn')
       const savedProgress = localStorage.getItem('learningProgress')
-      
+
       if (savedUser && savedLoginStatus === 'true') {
         user.value = JSON.parse(savedUser)
         isLoggedIn.value = true
       }
-      
+
       if (savedProgress) {
         const progressObj = JSON.parse(savedProgress)
         learningProgressMap.value = new Map(Object.entries(progressObj))
@@ -231,19 +232,19 @@ export const useUserStore = defineStore('user', () => {
   // 计算用户统计信息
   const getUserStats = () => {
     if (!user.value) return null
-    
+
     const totalProgress = Array.from(learningProgressMap.value.values())
     const totalCompletedLessons = totalProgress.reduce(
-      (sum, progress) => sum + progress.completedLessons.length, 
-      0
+      (sum, progress) => sum + progress.completedLessons.length,
+      0,
     )
-    
+
     return {
       completedCourses: user.value.learningProgress.completedCourses,
       totalStudyTime: user.value.learningProgress.totalStudyTime,
       certificates: user.value.learningProgress.certificates,
       totalCompletedLessons,
-      activeCourses: learningProgressMap.value.size
+      activeCourses: learningProgressMap.value.size,
     }
   }
 
@@ -251,7 +252,7 @@ export const useUserStore = defineStore('user', () => {
     // 状态
     user,
     isLoggedIn,
-    
+
     // 方法
     login,
     register,
@@ -260,6 +261,6 @@ export const useUserStore = defineStore('user', () => {
     updateLearningProgress,
     getCourseProgress,
     initializeAuth,
-    getUserStats
+    getUserStats,
   }
-}) 
+})

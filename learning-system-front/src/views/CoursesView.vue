@@ -7,7 +7,7 @@
           <h1 class="page-title">全部课程</h1>
           <p class="page-subtitle">发现适合你的学习内容，开启技能提升之旅</p>
         </div>
-        
+
         <!-- 搜索栏 -->
         <div class="search-section">
           <el-input
@@ -44,7 +44,7 @@
               </button>
             </div>
           </div>
-          
+
           <div class="filter-group">
             <span class="filter-label">难度：</span>
             <div class="filter-options">
@@ -59,7 +59,7 @@
               </button>
             </div>
           </div>
-          
+
           <div class="filter-group">
             <span class="filter-label">排序：</span>
             <el-select v-model="sortBy" class="sort-select" @change="handleSort">
@@ -110,7 +110,7 @@
               <img :src="course.image" :alt="course.title" />
               <div v-if="course.badge" class="course-badge">{{ course.badge }}</div>
             </div>
-            
+
             <div class="course-content">
               <div class="course-header">
                 <h3 class="course-title">{{ course.title }}</h3>
@@ -119,32 +119,34 @@
                   <span class="course-students">{{ course.studentsCount }}人学习</span>
                 </div>
               </div>
-              
+
               <p class="course-description">{{ course.description }}</p>
-              
+
               <div class="course-footer">
                 <div class="instructor-info">
-                  <img 
-                    :src="course.instructor.avatar" 
+                  <img
+                    :src="course.instructor.avatar"
                     :alt="course.instructor.name"
                     class="instructor-avatar"
                   />
                   <span class="instructor-name">{{ course.instructor.name }}</span>
                 </div>
-                
+
                 <div class="course-rating">
                   <el-rate
                     v-model="course.rating"
                     disabled
                     show-score
-                    text-color="#ff9900"
+                    text-color="var(--brand-accent)"
                     score-template="{value}"
                   />
                   <span class="review-count">({{ course.reviewCount }})</span>
                 </div>
-                
+
                 <div class="course-price">
-                  <span v-if="course.originalPrice" class="original-price">¥{{ course.originalPrice }}</span>
+                  <span v-if="course.originalPrice" class="original-price"
+                    >¥{{ course.originalPrice }}</span
+                  >
                   <span class="current-price">¥{{ course.price }}</span>
                 </div>
               </div>
@@ -164,7 +166,7 @@
               <img :src="course.image" :alt="course.title" />
               <div v-if="course.badge" class="course-badge">{{ course.badge }}</div>
             </div>
-            
+
             <div class="course-info">
               <div class="course-header">
                 <h3 class="course-title">{{ course.title }}</h3>
@@ -174,9 +176,9 @@
                   <span class="course-students">{{ course.studentsCount }}人学习</span>
                 </div>
               </div>
-              
+
               <p class="course-description">{{ course.description }}</p>
-              
+
               <div class="course-skills">
                 <el-tag
                   v-for="skill in course.skills.slice(0, 4)"
@@ -187,10 +189,10 @@
                   {{ skill }}
                 </el-tag>
               </div>
-              
+
               <div class="course-instructor">
-                <img 
-                  :src="course.instructor.avatar" 
+                <img
+                  :src="course.instructor.avatar"
                   :alt="course.instructor.name"
                   class="instructor-avatar"
                 />
@@ -198,27 +200,27 @@
                 <span class="instructor-title">{{ course.instructor.title }}</span>
               </div>
             </div>
-            
+
             <div class="course-actions">
               <div class="course-rating">
                 <el-rate
                   v-model="course.rating"
                   disabled
                   show-score
-                  text-color="#ff9900"
+                  text-color="var(--brand-accent)"
                   score-template="{value}"
                 />
                 <span class="review-count">({{ course.reviewCount }})</span>
               </div>
-              
+
               <div class="course-price">
-                <span v-if="course.originalPrice" class="original-price">¥{{ course.originalPrice }}</span>
+                <span v-if="course.originalPrice" class="original-price"
+                  >¥{{ course.originalPrice }}</span
+                >
                 <span class="current-price">¥{{ course.price }}</span>
               </div>
-              
-              <el-button type="primary" size="large" class="enroll-btn">
-                立即学习
-              </el-button>
+
+              <el-button type="primary" size="large" class="enroll-btn"> 立即学习 </el-button>
             </div>
           </div>
         </div>
@@ -268,14 +270,14 @@ const categories = [
   { key: '后端开发', label: '后端开发' },
   { key: 'AI人工智能', label: 'AI人工智能' },
   { key: '移动开发', label: '移动开发' },
-  { key: '架构设计', label: '架构设计' }
+  { key: '架构设计', label: '架构设计' },
 ]
 
 const levels = [
   { key: 'all', label: '全部' },
   { key: '初级', label: '初级' },
   { key: '中级', label: '中级' },
-  { key: '高级', label: '高级' }
+  { key: '高级', label: '高级' },
 ]
 
 // 课程数据
@@ -288,22 +290,23 @@ const filteredCourses = computed(() => {
   // 搜索筛选
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase()
-    result = result.filter(course =>
-      course.title.toLowerCase().includes(query) ||
-      course.description.toLowerCase().includes(query) ||
-      course.instructor.name.toLowerCase().includes(query) ||
-      course.skills.some(skill => skill.toLowerCase().includes(query))
+    result = result.filter(
+      (course) =>
+        course.title.toLowerCase().includes(query) ||
+        course.description.toLowerCase().includes(query) ||
+        course.instructor.name.toLowerCase().includes(query) ||
+        course.skills.some((skill) => skill.toLowerCase().includes(query)),
     )
   }
 
   // 分类筛选
   if (selectedCategory.value !== 'all') {
-    result = result.filter(course => course.category === selectedCategory.value)
+    result = result.filter((course) => course.category === selectedCategory.value)
   }
 
   // 难度筛选
   if (selectedLevel.value !== 'all') {
-    result = result.filter(course => course.difficulty === selectedLevel.value)
+    result = result.filter((course) => course.difficulty === selectedLevel.value)
   }
 
   // 排序
@@ -368,19 +371,23 @@ const gotoCourse = (courseId: string) => {
 }
 
 // 监听路由参数变化
-watch(() => route.query, (newQuery) => {
-  if (newQuery.search) {
-    searchQuery.value = String(newQuery.search)
-  }
-  if (newQuery.instructor) {
-    // 根据讲师ID筛选课程
-    selectedCategory.value = 'all'
-  }
-}, { immediate: true })
+watch(
+  () => route.query,
+  (newQuery) => {
+    if (newQuery.search) {
+      searchQuery.value = String(newQuery.search)
+    }
+    if (newQuery.instructor) {
+      // 根据讲师ID筛选课程
+      selectedCategory.value = 'all'
+    }
+  },
+  { immediate: true },
+)
 
 onMounted(() => {
   allCourses.value = courses
-  
+
   // 初始化搜索参数
   if (route.query.search) {
     searchQuery.value = String(route.query.search)
@@ -399,34 +406,34 @@ onMounted(() => {
   background: linear-gradient(135deg, #1890ff 0%, #40a9ff 100%);
   color: white;
   padding: 60px 0;
-  
+
   .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    max-width: var(--container-max-width) !important;
+    margin: 0 auto !important;
+    padding: 0 var(--container-padding) !important;
   }
-  
+
   .header-content {
     text-align: center;
     margin-bottom: 40px;
-    
+
     .page-title {
       font-size: 42px;
       font-weight: 700;
       margin: 0 0 16px 0;
     }
-    
+
     .page-subtitle {
       font-size: 18px;
       margin: 0;
       opacity: 0.9;
     }
   }
-  
+
   .search-section {
     max-width: 600px;
     margin: 0 auto;
-    
+
     .search-input {
       :deep(.el-input__wrapper) {
         background: white;
@@ -435,7 +442,7 @@ onMounted(() => {
         height: 48px;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
       }
-      
+
       :deep(.el-input__inner) {
         font-size: 16px;
       }
@@ -448,36 +455,36 @@ onMounted(() => {
   background: white;
   border-bottom: 1px solid #e4e7ed;
   padding: 20px 0;
-  
+
   .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    max-width: var(--container-max-width) !important;
+    margin: 0 auto !important;
+    padding: 0 var(--container-padding) !important;
   }
-  
+
   .filter-tabs {
     display: flex;
     align-items: center;
     gap: 40px;
     flex-wrap: wrap;
-    
+
     .filter-group {
       display: flex;
       align-items: center;
       gap: 12px;
-      
+
       .filter-label {
         font-size: 14px;
         color: #595959;
         font-weight: 500;
         white-space: nowrap;
       }
-      
+
       .filter-options {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
-        
+
         .filter-btn {
           padding: 6px 16px;
           border: 1px solid #d9d9d9;
@@ -487,12 +494,12 @@ onMounted(() => {
           font-size: 14px;
           cursor: pointer;
           transition: all 0.2s;
-          
+
           &:hover {
             border-color: #1890ff;
             color: #1890ff;
           }
-          
+
           &.active {
             background: #1890ff;
             border-color: #1890ff;
@@ -500,7 +507,7 @@ onMounted(() => {
           }
         }
       }
-      
+
       .sort-select {
         width: 140px;
       }
@@ -511,19 +518,19 @@ onMounted(() => {
 // 课程区域
 .courses-section {
   padding: 40px 0;
-  
+
   .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    max-width: var(--container-max-width) !important;
+    margin: 0 auto !important;
+    padding: 0 var(--container-padding) !important;
   }
-  
+
   .results-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 32px;
-    
+
     span {
       font-size: 16px;
       color: #595959;
@@ -537,7 +544,7 @@ onMounted(() => {
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
   margin-bottom: 40px;
-  
+
   .course-card {
     background: white;
     border-radius: 12px;
@@ -545,23 +552,23 @@ onMounted(() => {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
     cursor: pointer;
-    
+
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     }
-    
+
     .course-image {
       position: relative;
       aspect-ratio: 16/9;
       overflow: hidden;
-      
+
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
-      
+
       .course-badge {
         position: absolute;
         top: 12px;
@@ -574,13 +581,13 @@ onMounted(() => {
         font-weight: 600;
       }
     }
-    
+
     .course-content {
       padding: 20px;
-      
+
       .course-header {
         margin-bottom: 12px;
-        
+
         .course-title {
           font-size: 16px;
           font-weight: 600;
@@ -592,13 +599,13 @@ onMounted(() => {
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
-        
+
         .course-meta {
           display: flex;
           gap: 12px;
           font-size: 12px;
           color: #8c8c8c;
-          
+
           .course-level {
             background: #f0f0f0;
             padding: 2px 6px;
@@ -606,7 +613,7 @@ onMounted(() => {
           }
         }
       }
-      
+
       .course-description {
         font-size: 14px;
         color: #595959;
@@ -617,57 +624,57 @@ onMounted(() => {
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
-      
+
       .course-footer {
         .instructor-info {
           display: flex;
           align-items: center;
           margin-bottom: 12px;
-          
+
           .instructor-avatar {
             width: 24px;
             height: 24px;
             border-radius: 50%;
             margin-right: 8px;
           }
-          
+
           .instructor-name {
             font-size: 14px;
             color: #595959;
           }
         }
-        
+
         .course-rating {
           display: flex;
           align-items: center;
           margin-bottom: 12px;
-          
+
           :deep(.el-rate) {
             height: auto;
           }
-          
+
           .review-count {
             font-size: 12px;
             color: #8c8c8c;
             margin-left: 8px;
           }
         }
-        
+
         .course-price {
           display: flex;
           align-items: center;
           gap: 8px;
-          
+
           .original-price {
             font-size: 14px;
             color: #8c8c8c;
             text-decoration: line-through;
           }
-          
+
           .current-price {
             font-size: 18px;
             font-weight: 600;
-            color: #ff4d4f;
+            color: var(--color-error);
           }
         }
       }
@@ -678,7 +685,7 @@ onMounted(() => {
 // 列表视图
 .courses-list {
   margin-bottom: 40px;
-  
+
   .course-list-item {
     background: white;
     border-radius: 12px;
@@ -689,11 +696,11 @@ onMounted(() => {
     transition: all 0.3s;
     display: flex;
     gap: 24px;
-    
+
     &:hover {
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     }
-    
+
     .course-image {
       position: relative;
       width: 200px;
@@ -701,13 +708,13 @@ onMounted(() => {
       border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
-      
+
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
-      
+
       .course-badge {
         position: absolute;
         top: 8px;
@@ -719,26 +726,26 @@ onMounted(() => {
         font-size: 12px;
       }
     }
-    
+
     .course-info {
       flex: 1;
-      
+
       .course-header {
         margin-bottom: 12px;
-        
+
         .course-title {
           font-size: 20px;
           font-weight: 600;
           color: #262626;
           margin: 0 0 8px 0;
         }
-        
+
         .course-meta {
           display: flex;
           gap: 16px;
           font-size: 14px;
           color: #8c8c8c;
-          
+
           .course-level {
             background: #f0f0f0;
             padding: 2px 8px;
@@ -746,7 +753,7 @@ onMounted(() => {
           }
         }
       }
-      
+
       .course-description {
         font-size: 14px;
         color: #595959;
@@ -757,78 +764,78 @@ onMounted(() => {
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
-      
+
       .course-skills {
         margin-bottom: 16px;
-        
+
         .el-tag {
           margin-right: 8px;
           margin-bottom: 4px;
         }
       }
-      
+
       .course-instructor {
         display: flex;
         align-items: center;
-        
+
         .instructor-avatar {
           width: 32px;
           height: 32px;
           border-radius: 50%;
           margin-right: 12px;
         }
-        
+
         .instructor-name {
           font-size: 14px;
           font-weight: 500;
           color: #262626;
           margin-right: 8px;
         }
-        
+
         .instructor-title {
           font-size: 12px;
           color: #8c8c8c;
         }
       }
     }
-    
+
     .course-actions {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       justify-content: space-between;
       min-width: 200px;
-      
+
       .course-rating {
         display: flex;
         align-items: center;
-        
+
         .review-count {
           font-size: 12px;
           color: #8c8c8c;
           margin-left: 8px;
         }
       }
-      
+
       .course-price {
         display: flex;
         align-items: center;
         gap: 8px;
         margin-bottom: 16px;
-        
+
         .original-price {
           font-size: 14px;
           color: #8c8c8c;
           text-decoration: line-through;
         }
-        
+
         .current-price {
           font-size: 24px;
           font-weight: 600;
           color: #ff4d4f;
         }
       }
-      
+
       .enroll-btn {
         width: 120px;
       }
@@ -850,29 +857,29 @@ onMounted(() => {
     align-items: flex-start !important;
     gap: 16px !important;
   }
-  
+
   .courses-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .course-list-item {
     flex-direction: column !important;
-    
+
     .course-image {
       width: 100% !important;
     }
-    
+
     .course-actions {
       flex-direction: row !important;
       align-items: center !important;
       min-width: auto !important;
     }
   }
-  
+
   .results-info {
     flex-direction: column;
     align-items: flex-start !important;
     gap: 16px;
   }
 }
-</style> 
+</style>

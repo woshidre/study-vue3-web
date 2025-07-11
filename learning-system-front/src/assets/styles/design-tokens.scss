@@ -1,0 +1,203 @@
+// ===========================================
+// 设计Token系统 - 学习系统前端
+// ===========================================
+
+// 颜色系统 - Color Tokens
+:root {
+  // 品牌色系 - Brand Colors
+  --brand-primary: #ff6b35;
+  --brand-primary-light: #ff8c42;
+  --brand-primary-dark: #e55a2b;
+  --brand-secondary: #667eea;
+  --brand-secondary-light: #764ba2;
+  --brand-accent: #ffa726;
+
+  // 中性色系 - Neutral Colors
+  --neutral-50: #fafbfc;
+  --neutral-100: #f8f9fa;
+  --neutral-200: #e8ecf4;
+  --neutral-300: #d6dbe7;
+  --neutral-400: #9ca3b4;
+  --neutral-500: #6c757d;
+  --neutral-600: #495057;
+  --neutral-700: #343a40;
+  --neutral-800: #212529;
+  --neutral-900: #1a1d23;
+
+  // 语义化颜色 - Semantic Colors
+  --color-success: #28a745;
+  --color-success-light: #d4edda;
+  --color-warning: #ffc107;
+  --color-warning-light: #fff3cd;
+  --color-error: #dc3545;
+  --color-error-light: #f8d7da;
+  --color-info: #17a2b8;
+  --color-info-light: #d1ecf1;
+
+  // 文本颜色 - Text Colors
+  --text-primary: var(--neutral-800);
+  --text-secondary: var(--neutral-600);
+  --text-tertiary: var(--neutral-500);
+  --text-disabled: var(--neutral-400);
+  --text-inverse: #ffffff;
+
+  // 背景颜色 - Background Colors
+  --bg-primary: #ffffff;
+  --bg-secondary: var(--neutral-50);
+  --bg-tertiary: var(--neutral-100);
+  --bg-overlay: rgba(0, 0, 0, 0.6);
+
+  // 边框颜色 - Border Colors
+  --border-primary: var(--neutral-200);
+  --border-secondary: var(--neutral-300);
+  --border-focus: var(--brand-secondary);
+  --border-error: var(--color-error);
+
+  // 阴影系统 - Shadow System
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.12);
+  --shadow-2xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+// 字体系统 - Typography System
+:root {
+  // 字体家族 - Font Families
+  --font-primary:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial',
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+
+  // 字体大小 - Font Sizes
+  --text-xs: 0.75rem; // 12px
+  --text-sm: 0.875rem; // 14px
+  --text-base: 1rem; // 16px
+  --text-lg: 1.125rem; // 18px
+  --text-xl: 1.25rem; // 20px
+  --text-2xl: 1.5rem; // 24px
+  --text-3xl: 1.875rem; // 30px
+  --text-4xl: 2.25rem; // 36px
+  --text-5xl: 3rem; // 48px
+
+  // 行高 - Line Heights
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  // 字重 - Font Weights
+  --font-thin: 100;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+}
+
+// 间距系统 - Spacing System
+:root {
+  --space-0: 0;
+  --space-1: 0.25rem; // 4px
+  --space-2: 0.5rem; // 8px
+  --space-3: 0.75rem; // 12px
+  --space-4: 1rem; // 16px
+  --space-5: 1.25rem; // 20px
+  --space-6: 1.5rem; // 24px
+  --space-8: 2rem; // 32px
+  --space-10: 2.5rem; // 40px
+  --space-12: 3rem; // 48px
+  --space-16: 4rem; // 64px
+  --space-20: 5rem; // 80px
+  --space-24: 6rem; // 96px
+  --space-32: 8rem; // 128px
+}
+
+// 圆角系统 - Border Radius System
+:root {
+  --radius-none: 0;
+  --radius-sm: 0.25rem; // 4px
+  --radius-base: 0.5rem; // 8px
+  --radius-md: 0.75rem; // 12px
+  --radius-lg: 1rem; // 16px
+  --radius-xl: 1.5rem; // 24px
+  --radius-2xl: 2rem; // 32px
+  --radius-full: 9999px;
+}
+
+// 容器系统 - Container System
+:root {
+  --container-xs: 480px;
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1400px;
+
+  // 标准容器宽度 - 扩展到外框宽度，充分利用宽屏空间
+  --container-max-width: 2200px; // 统一的最大宽度，适配现代宽屏显示器
+  --container-max-width-home: 2200px; // 统一使用相同的最大宽度
+  --container-padding: var(--space-6);
+}
+
+// 断点系统 - Breakpoint System
+:root {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+// Z-index 系统 - Z-index System
+:root {
+  --z-auto: auto;
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-modal: 1000;
+  --z-popover: 1010;
+  --z-tooltip: 1020;
+  --z-notification: 1030;
+}
+
+// 过渡动画系统 - Transition System
+:root {
+  --transition-fast: 0.15s ease-out;
+  --transition-base: 0.3s ease-out;
+  --transition-slow: 0.5s ease-out;
+
+  // 缓动函数
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// 组件尺寸系统 - Component Size System
+:root {
+  // 按钮高度
+  --btn-height-sm: 2rem; // 32px
+  --btn-height-base: 2.5rem; // 40px
+  --btn-height-lg: 3rem; // 48px
+
+  // 输入框高度
+  --input-height-sm: 2rem; // 32px
+  --input-height-base: 2.5rem; // 40px
+  --input-height-lg: 3rem; // 48px
+
+  // 头像尺寸
+  --avatar-xs: 1.5rem; // 24px
+  --avatar-sm: 2rem; // 32px
+  --avatar-base: 2.5rem; // 40px
+  --avatar-lg: 3rem; // 48px
+  --avatar-xl: 4rem; // 64px
+}

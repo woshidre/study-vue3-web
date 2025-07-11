@@ -20,7 +20,8 @@
             </div>
           </div>
           <p class="hero-description">
-            ChatGPT 爆火，AI 大模型涌现，整个 AI 行业蓬勃发展，为了跟上时代节拍，整理了 200+ 份专业资料，把控AI一线资讯全栈技术趋势。
+            ChatGPT 爆火，AI 大模型涌现，整个 AI 行业蓬勃发展，为了跟上时代节拍，整理了 200+
+            份专业资料，把控AI一线资讯全栈技术趋势。
           </p>
         </div>
       </div>
@@ -32,8 +33,8 @@
         <div class="section-header">
           <h2 class="section-title">学习资源</h2>
           <div class="filter-tabs">
-            <span 
-              v-for="filter in filterTabs" 
+            <span
+              v-for="filter in filterTabs"
               :key="filter.id"
               class="filter-tab"
               :class="{ active: activeFilter === filter.id }"
@@ -45,8 +46,8 @@
         </div>
 
         <div class="courses-list">
-          <div 
-            v-for="course in filteredPathCourses" 
+          <div
+            v-for="course in filteredPathCourses"
             :key="course.id"
             class="course-item"
             @click="goToCourse(course.id)"
@@ -68,28 +69,20 @@
                 <span class="instructor-title">{{ course.instructor.title }}</span>
               </div>
               <div class="course-tags">
-                <span 
-                  v-for="skill in course.skills.slice(0, 3)" 
-                  :key="skill"
-                  class="course-tag"
-                >
+                <span v-for="skill in course.skills.slice(0, 3)" :key="skill" class="course-tag">
                   {{ skill }}
                 </span>
               </div>
             </div>
             <div class="course-actions">
-              <el-button type="primary" class="learn-btn">
-                免费学习
-              </el-button>
+              <el-button type="primary" class="learn-btn"> 免费学习 </el-button>
             </div>
           </div>
         </div>
 
         <!-- 加载更多 -->
         <div class="load-more" v-if="hasMore">
-          <el-button @click="loadMoreCourses" :loading="loading">
-            加载更多
-          </el-button>
+          <el-button @click="loadMoreCourses" :loading="loading"> 加载更多 </el-button>
         </div>
       </div>
     </section>
@@ -99,7 +92,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { courses, mockLearningPaths } from '@/data/mockData'
+import { courses } from '@/data/mockData'
 
 const router = useRouter()
 
@@ -109,7 +102,7 @@ const filterTabs = ref([
   { id: 'ai', name: 'AI大模型' },
   { id: 'frontend', name: '前端开发' },
   { id: 'backend', name: '后端开发' },
-  { id: 'mobile', name: '移动开发' }
+  { id: 'mobile', name: '移动开发' },
 ])
 
 const activeFilter = ref('all')
@@ -118,12 +111,13 @@ const hasMore = ref(true)
 
 // 模拟学习路径中的课程数据
 const pathCourses = ref([
-      ...courses,
+  ...courses,
   // 添加更多AI相关课程
   {
     id: '5',
     title: 'MCP & A2A 前沿实战',
-    description: '掌握 AI "通讯员"，加速构建智能应用。深入学习 MCP 协议的设计理念、核心特性，以及在实际项目中的应用。',
+    description:
+      '掌握 AI "通讯员"，加速构建智能应用。深入学习 MCP 协议的设计理念、核心特性，以及在实际项目中的应用。',
     image: '/placeholder-course.jpg',
     price: 89,
     originalPrice: 199,
@@ -142,7 +136,7 @@ const pathCourses = ref([
     features: ['实战项目', '源码下载', '专家答疑'],
     createdAt: '2024-02-10',
     updatedAt: '2024-02-12',
-    isHot: true
+    isHot: true,
   },
   {
     id: '6',
@@ -163,7 +157,7 @@ const pathCourses = ref([
     requirements: ['编程基础'],
     features: ['免费课程', '工具推荐', '实用技巧'],
     createdAt: '2024-01-28',
-    updatedAt: '2024-02-01'
+    updatedAt: '2024-02-01',
   },
   {
     id: '7',
@@ -184,15 +178,15 @@ const pathCourses = ref([
     requirements: ['机器学习基础', 'Python编程'],
     features: ['模型实战', '部署指南', '案例分析'],
     createdAt: '2024-02-05',
-    updatedAt: '2024-02-08'
-  }
+    updatedAt: '2024-02-08',
+  },
 ])
 
 const filteredPathCourses = computed(() => {
   if (activeFilter.value === 'all') {
     return pathCourses.value
   }
-  return pathCourses.value.filter(course => course.category === activeFilter.value)
+  return pathCourses.value.filter((course) => course.category === activeFilter.value)
 })
 
 const formatDate = (dateString: string) => {
@@ -200,7 +194,7 @@ const formatDate = (dateString: string) => {
   const now = new Date()
   const diffTime = Math.abs(now.getTime() - date.getTime())
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  
+
   if (diffDays === 1) {
     return '1天前更新'
   } else if (diffDays <= 7) {
@@ -234,26 +228,33 @@ const loadMoreCourses = () => {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 80px 0;
-    
+
+    // 确保头图有统一的最大宽度约束
+    .container {
+      max-width: var(--container-max-width) !important;
+      margin: 0 auto !important;
+      padding: 0 var(--container-padding) !important;
+    }
+
     .hero-content {
       text-align: center;
-      
+
       .hero-title {
         font-size: 48px;
         font-weight: 700;
         margin-bottom: 32px;
         line-height: 1.2;
       }
-      
+
       .hero-stats {
         display: flex;
         justify-content: center;
         gap: 48px;
         margin-bottom: 32px;
-        
+
         .stat-item {
           text-align: center;
-          
+
           .stat-number {
             display: block;
             font-size: 36px;
@@ -261,7 +262,7 @@ const loadMoreCourses = () => {
             color: #ffd700;
             line-height: 1;
           }
-          
+
           .stat-label {
             font-size: 14px;
             opacity: 0.9;
@@ -269,7 +270,7 @@ const loadMoreCourses = () => {
           }
         }
       }
-      
+
       .hero-description {
         font-size: 18px;
         line-height: 1.6;
@@ -282,23 +283,23 @@ const loadMoreCourses = () => {
 
   .courses-section {
     padding: 80px 0;
-    
+
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 48px;
-      
+
       .section-title {
         font-size: 32px;
         font-weight: 600;
         color: var(--text-primary);
       }
-      
+
       .filter-tabs {
         display: flex;
         gap: 24px;
-        
+
         .filter-tab {
           padding: 8px 16px;
           font-size: 16px;
@@ -306,20 +307,21 @@ const loadMoreCourses = () => {
           cursor: pointer;
           border-radius: 20px;
           transition: all 0.3s ease;
-          
-          &:hover, &.active {
+
+          &:hover,
+          &.active {
             color: var(--primary-color);
             background: rgba(255, 107, 53, 0.1);
           }
         }
       }
     }
-    
+
     .courses-list {
       display: flex;
       flex-direction: column;
       gap: 24px;
-      
+
       .course-item {
         display: flex;
         align-items: flex-start;
@@ -330,16 +332,16 @@ const loadMoreCourses = () => {
         border: 1px solid var(--border-color);
         cursor: pointer;
         transition: all 0.3s ease;
-        
+
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
           border-color: var(--primary-color);
         }
-        
+
         .course-avatar {
           flex-shrink: 0;
-          
+
           img {
             width: 60px;
             height: 60px;
@@ -347,16 +349,16 @@ const loadMoreCourses = () => {
             object-fit: cover;
           }
         }
-        
+
         .course-content {
           flex: 1;
-          
+
           .course-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 8px;
-            
+
             .course-title {
               font-size: 20px;
               font-weight: 600;
@@ -364,14 +366,14 @@ const loadMoreCourses = () => {
               line-height: 1.4;
               margin-right: 16px;
             }
-            
+
             .course-meta {
               display: flex;
               flex-direction: column;
               align-items: flex-end;
               gap: 4px;
               flex-shrink: 0;
-              
+
               .course-date,
               .course-views {
                 font-size: 12px;
@@ -379,7 +381,7 @@ const loadMoreCourses = () => {
               }
             }
           }
-          
+
           .course-description {
             font-size: 14px;
             color: var(--text-secondary);
@@ -390,30 +392,30 @@ const loadMoreCourses = () => {
             -webkit-box-orient: vertical;
             overflow: hidden;
           }
-          
+
           .course-instructor-info {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-bottom: 12px;
-            
+
             .instructor-name {
               font-size: 14px;
               font-weight: 500;
               color: var(--text-primary);
             }
-            
+
             .instructor-title {
               font-size: 12px;
               color: var(--text-light);
             }
           }
-          
+
           .course-tags {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            
+
             .course-tag {
               padding: 4px 8px;
               background: rgba(255, 107, 53, 0.1);
@@ -424,12 +426,12 @@ const loadMoreCourses = () => {
             }
           }
         }
-        
+
         .course-actions {
           flex-shrink: 0;
           display: flex;
           align-items: center;
-          
+
           .learn-btn {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border: none;
@@ -441,11 +443,11 @@ const loadMoreCourses = () => {
         }
       }
     }
-    
+
     .load-more {
       text-align: center;
       margin-top: 48px;
-      
+
       .el-button {
         padding: 12px 32px;
         border-radius: 20px;
@@ -460,68 +462,68 @@ const loadMoreCourses = () => {
   .learning-paths-view {
     .hero-section {
       padding: 40px 0;
-      
+
       .hero-content {
         .hero-title {
           font-size: 32px;
           margin-bottom: 24px;
         }
-        
+
         .hero-stats {
           gap: 24px;
           margin-bottom: 24px;
-          
+
           .stat-item {
             .stat-number {
               font-size: 28px;
             }
           }
         }
-        
+
         .hero-description {
           font-size: 16px;
         }
       }
     }
-    
+
     .courses-section {
       padding: 40px 0;
-      
+
       .section-header {
         flex-direction: column;
         gap: 16px;
         align-items: flex-start;
-        
+
         .section-title {
           font-size: 24px;
         }
-        
+
         .filter-tabs {
           gap: 12px;
           flex-wrap: wrap;
         }
       }
-      
+
       .courses-list {
         .course-item {
           flex-direction: column;
           text-align: center;
-          
+
           .course-content {
             .course-header {
               flex-direction: column;
               align-items: center;
               gap: 8px;
-              
+
               .course-meta {
                 align-items: center;
               }
             }
-            
+
             .course-instructor-info {
               justify-content: center;
             }
-            
+
             .course-tags {
               justify-content: center;
             }
@@ -531,4 +533,4 @@ const loadMoreCourses = () => {
     }
   }
 }
-</style> 
+</style>

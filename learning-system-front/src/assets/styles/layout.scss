@@ -1,0 +1,591 @@
+// ===========================================
+// 布局和容器系统 - Layout & Container System
+// ===========================================
+
+// 基础布局重置
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+// 容器系统 - Container System
+.container {
+  width: 100%;
+  max-width: var(--container-max-width) !important;
+  margin: 0 auto;
+  padding-left: var(--container-padding) !important;
+  padding-right: var(--container-padding) !important;
+  position: relative;
+}
+
+// 不同尺寸的容器
+.container-sm {
+  max-width: var(--container-sm);
+  margin: 0 auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-md {
+  max-width: var(--container-md);
+  margin: 0 auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-lg {
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-xl {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-full {
+  width: 100%;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-fluid {
+  width: 100%;
+  padding: 0;
+}
+
+// 页面布局结构 - Page Layout Structure
+.page-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-secondary);
+}
+
+// 这个是用于AppHeader的固定定位，不应该影响页面内的hero section
+.app-page-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-50);
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+// 页面内的头图区域，不应该被固定
+.page-header {
+  position: relative;
+  background: var(--bg-primary);
+
+  // 确保所有头图都有统一的最大宽度约束
+  .container {
+    max-width: var(--container-max-width) !important;
+    margin: 0 auto !important;
+    padding: 0 var(--container-padding) !important;
+  }
+}
+
+.page-main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--container-padding);
+  min-height: calc(100vh - 64px); // 减去header高度
+}
+
+// 页面内容标准化 - Page Content Standardization
+.page-content {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+// 页面级section标准化
+.page-section {
+  width: 100%;
+
+  .container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+}
+
+.page-footer {
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-primary);
+  padding: var(--space-8) 0;
+  margin-top: auto;
+}
+
+// 内容区域布局 - Content Area Layout
+.content-wrapper {
+  display: flex;
+  gap: var(--space-8);
+  align-items: flex-start;
+}
+
+.content-main {
+  flex: 1;
+  min-width: 0; // 防止flex溢出
+}
+
+.content-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.content-sidebar-left {
+  order: -1;
+}
+
+.content-sidebar-right {
+  order: 1;
+}
+
+// 卡片布局系统 - Card Layout System
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  overflow: hidden;
+}
+
+.card-hover {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-focus);
+  }
+}
+
+.card-header {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--border-primary);
+  background: var(--bg-secondary);
+}
+
+.card-body {
+  padding: var(--space-6);
+}
+
+.card-footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-primary);
+  background: var(--bg-secondary);
+}
+
+// 网格系统 - Grid System
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.grid-cols-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+.grid-cols-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid-auto-fill {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+// Flexbox 布局系统 - Flexbox System
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+// Flex 对齐
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+.items-end {
+  align-items: flex-end;
+}
+.items-center {
+  align-items: center;
+}
+.items-baseline {
+  align-items: baseline;
+}
+.items-stretch {
+  align-items: stretch;
+}
+
+.self-start {
+  align-self: flex-start;
+}
+.self-end {
+  align-self: flex-end;
+}
+.self-center {
+  align-self: center;
+}
+.self-stretch {
+  align-self: stretch;
+}
+
+// Flex 增长和收缩
+.flex-1 {
+  flex: 1 1 0%;
+}
+.flex-auto {
+  flex: 1 1 auto;
+}
+.flex-initial {
+  flex: 0 1 auto;
+}
+.flex-none {
+  flex: none;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+.flex-shrink {
+  flex-shrink: 1;
+}
+
+.flex-grow-0 {
+  flex-grow: 0;
+}
+.flex-grow {
+  flex-grow: 1;
+}
+
+// 间距系统 - Spacing System
+.gap-0 {
+  gap: var(--space-0);
+}
+.gap-1 {
+  gap: var(--space-1);
+}
+.gap-2 {
+  gap: var(--space-2);
+}
+.gap-3 {
+  gap: var(--space-3);
+}
+.gap-4 {
+  gap: var(--space-4);
+}
+.gap-5 {
+  gap: var(--space-5);
+}
+.gap-6 {
+  gap: var(--space-6);
+}
+.gap-8 {
+  gap: var(--space-8);
+}
+.gap-10 {
+  gap: var(--space-10);
+}
+.gap-12 {
+  gap: var(--space-12);
+}
+
+// 内边距
+.p-0 {
+  padding: var(--space-0);
+}
+.p-1 {
+  padding: var(--space-1);
+}
+.p-2 {
+  padding: var(--space-2);
+}
+.p-3 {
+  padding: var(--space-3);
+}
+.p-4 {
+  padding: var(--space-4);
+}
+.p-5 {
+  padding: var(--space-5);
+}
+.p-6 {
+  padding: var(--space-6);
+}
+.p-8 {
+  padding: var(--space-8);
+}
+.p-10 {
+  padding: var(--space-10);
+}
+.p-12 {
+  padding: var(--space-12);
+}
+
+// 外边距
+.m-0 {
+  margin: var(--space-0);
+}
+.m-1 {
+  margin: var(--space-1);
+}
+.m-2 {
+  margin: var(--space-2);
+}
+.m-3 {
+  margin: var(--space-3);
+}
+.m-4 {
+  margin: var(--space-4);
+}
+.m-5 {
+  margin: var(--space-5);
+}
+.m-6 {
+  margin: var(--space-6);
+}
+.m-8 {
+  margin: var(--space-8);
+}
+.m-10 {
+  margin: var(--space-10);
+}
+.m-12 {
+  margin: var(--space-12);
+}
+.m-auto {
+  margin: auto;
+}
+
+// 垂直间距
+.my-0 {
+  margin-top: var(--space-0);
+  margin-bottom: var(--space-0);
+}
+.my-1 {
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-1);
+}
+.my-2 {
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+.my-3 {
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+.my-4 {
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.my-5 {
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+.my-6 {
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+.my-8 {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+// 水平间距
+.mx-0 {
+  margin-left: var(--space-0);
+  margin-right: var(--space-0);
+}
+.mx-1 {
+  margin-left: var(--space-1);
+  margin-right: var(--space-1);
+}
+.mx-2 {
+  margin-left: var(--space-2);
+  margin-right: var(--space-2);
+}
+.mx-3 {
+  margin-left: var(--space-3);
+  margin-right: var(--space-3);
+}
+.mx-4 {
+  margin-left: var(--space-4);
+  margin-right: var(--space-4);
+}
+.mx-5 {
+  margin-left: var(--space-5);
+  margin-right: var(--space-5);
+}
+.mx-6 {
+  margin-left: var(--space-6);
+  margin-right: var(--space-6);
+}
+.mx-8 {
+  margin-left: var(--space-8);
+  margin-right: var(--space-8);
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// 响应式容器 - Responsive Containers
+@media (max-width: 768px) {
+  .container,
+  .container-sm,
+  .container-md,
+  .container-lg,
+  .container-xl {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  .page-main {
+    padding: var(--space-4);
+  }
+
+  .content-wrapper {
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .content-sidebar {
+    width: 100%;
+    order: 0;
+  }
+
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4,
+  .grid-cols-5,
+  .grid-cols-6 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-auto-fit,
+  .grid-auto-fill {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container,
+  .container-sm,
+  .container-md,
+  .container-lg,
+  .container-xl {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+  }
+
+  .page-main {
+    padding: var(--space-3);
+  }
+
+  .card-body {
+    padding: var(--space-4);
+  }
+
+  .card-header,
+  .card-footer {
+    padding: var(--space-3) var(--space-4);
+  }
+}
+
+// 隐藏/显示工具类 - Visibility Utilities
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}
+
+.invisible {
+  visibility: hidden !important;
+}
+
+// 响应式显示控制
+@media (max-width: 768px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hidden-desktop {
+    display: none !important;
+  }
+
+  .visible-mobile {
+    display: none !important;
+  }
+}

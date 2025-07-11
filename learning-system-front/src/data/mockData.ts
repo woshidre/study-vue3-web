@@ -1,10 +1,4 @@
-import type { 
-  Instructor, 
-  Course, 
-  LearningPath, 
-  CourseCategory, 
-  CourseChapter 
-} from '@/types/course'
+import type { Instructor, Course, LearningPath, CourseCategory } from '@/types/course'
 
 // Mock 讲师数据
 export const mockInstructors: Instructor[] = [
@@ -12,12 +6,13 @@ export const mockInstructors: Instructor[] = [
     id: '1',
     name: '张三',
     title: '高级前端架构师',
-    description: '10年前端开发经验，精通Vue.js生态系统，曾在腾讯、阿里巴巴等知名互联网公司担任技术专家。',
+    description:
+      '10年前端开发经验，精通Vue.js生态系统，曾在腾讯、阿里巴巴等知名互联网公司担任技术专家。',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
     coursesCount: 15,
     studentsCount: 25000,
     specialties: ['Vue.js', 'React', 'TypeScript', '前端架构'],
-    experience: 10
+    experience: 10,
   },
   {
     id: '2',
@@ -28,7 +23,7 @@ export const mockInstructors: Instructor[] = [
     coursesCount: 12,
     studentsCount: 18000,
     specialties: ['Node.js', '微服务', 'Docker', 'Kubernetes'],
-    experience: 8
+    experience: 8,
   },
   {
     id: '3',
@@ -39,7 +34,7 @@ export const mockInstructors: Instructor[] = [
     coursesCount: 8,
     studentsCount: 12000,
     specialties: ['机器学习', '深度学习', 'Python', 'TensorFlow'],
-    experience: 12
+    experience: 12,
   },
   {
     id: '4',
@@ -50,8 +45,8 @@ export const mockInstructors: Instructor[] = [
     coursesCount: 10,
     studentsCount: 15000,
     specialties: ['React Native', 'Flutter', 'iOS', 'Android'],
-    experience: 9
-  }
+    experience: 9,
+  },
 ]
 
 // Mock 课程数据
@@ -59,7 +54,8 @@ export const courses: Course[] = [
   {
     id: '1',
     title: 'Vue3 从零到一开发整站',
-    description: '基于Vue3和组合式API的现代前端开发实战，带你从零开始构建完整的Web应用。课程涵盖Vue3核心特性、路由管理、状态管理、UI组件库等内容。',
+    description:
+      '基于Vue3和组合式API的现代前端开发实战，带你从零开始构建完整的Web应用。课程涵盖Vue3核心特性、路由管理、状态管理、UI组件库等内容。',
     image: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
     price: 199,
     originalPrice: 399,
@@ -96,7 +92,7 @@ export const courses: Course[] = [
             content: `
               <h1>大家好！我是智贝豆</h1>
               <p>在软件开发被 AI 深度重塑的今天，一场特时的革命正在改变我们编程的方式。当我们还在讨论 AI 是否会取代程序员时，聪明的开发者们已经满怀地，未来的核心竞争力，不再是百以缓夜地"撸码"，而是学会如何与 AI 高效协作，将 AI 变为自己能力的延伸。</p>
-              
+
               <h3>你是否曾经历过这样的场景？</h3>
               <ul>
                 <li>😰 面对一个新项目，需要花费数小时搭建基础架构</li>
@@ -105,11 +101,11 @@ export const courses: Course[] = [
                 <li>📋 在重复性的 CRUD 代码中消耗创造力</li>
                 <li>🎯 想要快速验证一个想法，却被技术实现的复杂度阻碍步</li>
               </ul>
-              
+
               <p>如果你的答案是"是"，那么这本小册将彻底改变你的开发体验。</p>
-            `
-          }
-        ]
+            `,
+          },
+        ],
       },
       {
         id: '1-2',
@@ -127,7 +123,7 @@ export const courses: Course[] = [
             content: `
               <h2>Trae 安装与环境配置</h2>
               <p>本节课程将详细介绍如何安装和配置 Trae 开发环境...</p>
-            `
+            `,
           },
           {
             id: '1-2-2',
@@ -136,9 +132,9 @@ export const courses: Course[] = [
             type: 'video',
             completed: false,
             locked: false,
-            videoUrl: '/videos/project-setup.mp4'
-          }
-        ]
+            videoUrl: '/videos/project-setup.mp4',
+          },
+        ],
       },
       {
         id: '1-3',
@@ -151,7 +147,7 @@ export const courses: Course[] = [
             duration: '6分15秒',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '1-3-2',
@@ -159,9 +155,9 @@ export const courses: Course[] = [
             duration: '3分14秒',
             type: 'video',
             completed: false,
-            locked: false
-          }
-        ]
+            locked: false,
+          },
+        ],
       },
       {
         id: '1-4',
@@ -174,7 +170,7 @@ export const courses: Course[] = [
             duration: '8分22秒',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '1-4-2',
@@ -182,9 +178,9 @@ export const courses: Course[] = [
             duration: '12分16秒',
             type: 'video',
             completed: false,
-            locked: false
-          }
-        ]
+            locked: false,
+          },
+        ],
       },
       {
         id: '1-5',
@@ -197,7 +193,7 @@ export const courses: Course[] = [
             duration: '7分28秒',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '1-5-2',
@@ -205,9 +201,9 @@ export const courses: Course[] = [
             duration: '6分18秒',
             type: 'video',
             completed: false,
-            locked: false
-          }
-        ]
+            locked: false,
+          },
+        ],
       },
       {
         id: '1-6',
@@ -220,16 +216,17 @@ export const courses: Course[] = [
             duration: '7分36秒',
             type: 'video',
             completed: false,
-            locked: false
-          }
-        ]
-      }
-    ]
+            locked: false,
+          },
+        ],
+      },
+    ],
   },
   {
     id: '2',
     title: 'Node.js 全栈开发',
-    description: '掌握服务端JavaScript开发，学习Express框架、数据库操作、API设计等后端开发核心技能。',
+    description:
+      '掌握服务端JavaScript开发，学习Express框架、数据库操作、API设计等后端开发核心技能。',
     image: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
     price: 299,
     category: '后端开发',
@@ -259,7 +256,7 @@ export const courses: Course[] = [
             duration: '15分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '2-1-2',
@@ -267,7 +264,7 @@ export const courses: Course[] = [
             duration: '20分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '2-1-3',
@@ -275,9 +272,9 @@ export const courses: Course[] = [
             duration: '10分钟',
             type: 'video',
             completed: false,
-            locked: false
-          }
-        ]
+            locked: false,
+          },
+        ],
       },
       {
         id: '2-2',
@@ -290,7 +287,7 @@ export const courses: Course[] = [
             duration: '25分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '2-2-2',
@@ -298,11 +295,11 @@ export const courses: Course[] = [
             duration: '35分钟',
             type: 'video',
             completed: false,
-            locked: false
-          }
-        ]
-      }
-    ]
+            locked: false,
+          },
+        ],
+      },
+    ],
   },
   {
     id: '3',
@@ -340,7 +337,7 @@ export const courses: Course[] = [
             duration: '30分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '3-1-2',
@@ -348,7 +345,7 @@ export const courses: Course[] = [
             duration: '45分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '3-1-3',
@@ -356,9 +353,9 @@ export const courses: Course[] = [
             duration: '15分钟',
             type: 'document',
             completed: false,
-            locked: false
-          }
-        ]
+            locked: false,
+          },
+        ],
       },
       {
         id: '3-2',
@@ -371,7 +368,7 @@ export const courses: Course[] = [
             duration: '30分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '3-2-2',
@@ -379,7 +376,7 @@ export const courses: Course[] = [
             duration: '45分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '3-2-3',
@@ -387,11 +384,11 @@ export const courses: Course[] = [
             duration: '45分钟',
             type: 'video',
             completed: false,
-            locked: false
-          }
-        ]
-      }
-    ]
+            locked: false,
+          },
+        ],
+      },
+    ],
   },
   {
     id: '4',
@@ -426,7 +423,7 @@ export const courses: Course[] = [
             duration: '25分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '4-1-2',
@@ -434,7 +431,7 @@ export const courses: Course[] = [
             duration: '30分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '4-1-3',
@@ -442,9 +439,9 @@ export const courses: Course[] = [
             duration: '20分钟',
             type: 'video',
             completed: false,
-            locked: false
-          }
-        ]
+            locked: false,
+          },
+        ],
       },
       {
         id: '4-2',
@@ -457,7 +454,7 @@ export const courses: Course[] = [
             duration: '45分钟',
             type: 'video',
             completed: false,
-            locked: false
+            locked: false,
           },
           {
             id: '4-2-2',
@@ -465,12 +462,12 @@ export const courses: Course[] = [
             duration: '45分钟',
             type: 'video',
             completed: false,
-            locked: false
-          }
-        ]
-      }
-    ]
-  }
+            locked: false,
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 // Mock 课程分类数据
@@ -482,7 +479,7 @@ export const mockCategories: CourseCategory[] = [
     icon: 'Monitor',
     path: '/category/pag',
     coursesCount: 12,
-    studentsCount: 5600
+    studentsCount: 5600,
   },
   {
     id: '2',
@@ -491,7 +488,7 @@ export const mockCategories: CourseCategory[] = [
     icon: 'Cpu',
     path: '/category/ai',
     coursesCount: 8,
-    studentsCount: 3200
+    studentsCount: 3200,
   },
   {
     id: '3',
@@ -500,7 +497,7 @@ export const mockCategories: CourseCategory[] = [
     icon: 'Setting',
     path: '/category/architecture',
     coursesCount: 15,
-    studentsCount: 8900
+    studentsCount: 8900,
   },
   {
     id: '4',
@@ -509,8 +506,8 @@ export const mockCategories: CourseCategory[] = [
     icon: 'Connection',
     path: '/category/mcp',
     coursesCount: 6,
-    studentsCount: 2100
-  }
+    studentsCount: 2100,
+  },
 ]
 
 // Mock 学习路径数据
@@ -530,7 +527,7 @@ export const mockLearningPaths: LearningPath[] = [
     originalPrice: 998,
     instructor: mockInstructors[2],
     skills: ['AI开发', 'Python', '机器学习', 'Web开发'],
-    createdAt: '2024-02-01'
+    createdAt: '2024-02-01',
   },
   {
     id: '2',
@@ -547,7 +544,7 @@ export const mockLearningPaths: LearningPath[] = [
     originalPrice: 698,
     instructor: mockInstructors[1],
     skills: ['前端开发', '后端开发', '数据库', '部署运维'],
-    createdAt: '2024-01-20'
+    createdAt: '2024-01-20',
   },
   {
     id: '3',
@@ -564,40 +561,34 @@ export const mockLearningPaths: LearningPath[] = [
     originalPrice: 459,
     instructor: mockInstructors[3],
     skills: ['移动开发', '跨平台', 'React Native', 'Flutter'],
-    createdAt: '2024-01-25'
-  }
+    createdAt: '2024-01-25',
+  },
 ]
 
-// Mock 轮播图数据
+// Mock 轮播图数据 - 基于用户提供的宽屏图片优化
 export const mockBanners = [
   {
     id: 1,
-    title: 'MCP & A2A 前沿实战',
-    subtitle: '掌握 AI "通讯员"，加速构建智能应用',
-    price: '¥89',
-    originalPrice: '¥199',
-    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    image: '/placeholder-course.jpg',
-    link: '/course/3'
+    title: '100+ 小时热门好课免费学',
+    image: '/banners/ai-course-banner.png', // AI大模型|软考|Java|Go|架构|云原生
+    link: '/courses?category=ai',
   },
   {
     id: 2,
-    title: 'Vue3 高级进阶',
-    subtitle: '从零到一掌握现代前端开发',
-    price: '¥199',
-    originalPrice: '¥399',
-    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    image: '/placeholder-course.jpg',
-    link: '/course/1'
+    title: 'AI时代企业产品能力建设培养项目',
+    image: '/banners/ai-enterprise-banner.png', // 用AI重构产品增长新曲线
+    link: '/courses?category=ai-enterprise',
   },
   {
     id: 3,
-    title: '全栈工程师训练营',
-    subtitle: '前后端技术栈完整学习路径',
-    price: '¥459',
-    originalPrice: '¥698',
-    gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-    image: '/placeholder-course.jpg',
-    link: '/path/2'
-  }
-] 
+    title: 'MCP实战课程',
+    image: '/banners/mcp-course-banner.png', // 4个实战项目实现MCP从入门到进阶
+    link: '/courses?category=mcp',
+  },
+  {
+    id: 4,
+    title: '大模型安全实战课',
+    image: '/banners/security-course-banner.png', // 从认知到防御，全方位建设大模型安全防线
+    link: '/courses?category=security',
+  },
+]

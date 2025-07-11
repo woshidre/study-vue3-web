@@ -5,7 +5,7 @@
         <!-- Logo -->
         <div class="logo">
           <router-link to="/" class="logo-link">
-            <span class="logo-text">极客时间</span>
+            <span class="logo-text">BIMOWU</span>
           </router-link>
         </div>
 
@@ -34,16 +34,18 @@
             <el-button type="primary" class="login-btn" @click="showLoginDialog = true">
               登录
             </el-button>
-            <el-button class="register-btn" @click="showRegisterDialog = true">
-              注册
-            </el-button>
+            <el-button class="register-btn" @click="showRegisterDialog = true"> 注册 </el-button>
           </template>
-          
+
           <!-- 已登录状态 -->
           <template v-else>
             <el-dropdown @command="handleUserCommand">
               <div class="user-profile">
-                <img :src="userStore.user?.avatar" :alt="userStore.user?.name" class="user-avatar" />
+                <img
+                  :src="userStore.user?.avatar"
+                  :alt="userStore.user?.name"
+                  class="user-avatar"
+                />
                 <span class="user-name">{{ userStore.user?.name }}</span>
                 <el-icon class="dropdown-icon"><ArrowDown /></el-icon>
               </div>
@@ -58,78 +60,83 @@
             </el-dropdown>
           </template>
         </div>
-        
-    <!-- 登录对话框 -->
-    <el-dialog v-model="showLoginDialog" title="用户登录" width="400px" align-center>
-      <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" label-width="80px">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="loginForm.username" placeholder="请输入用户名或邮箱" />
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input 
-            v-model="loginForm.password" 
-            type="password" 
-            placeholder="请输入密码"
-            show-password
-            @keyup.enter="handleLogin"
-          />
-        </el-form-item>
-      </el-form>
-      
-      <div class="login-tips">
-        <p>演示账号：demo，密码：123456</p>
-      </div>
-      
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="showLoginDialog = false">取消</el-button>
-          <el-button type="primary" :loading="loginLoading" @click="handleLogin">
-            登录
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
 
-    <!-- 注册对话框 -->
-    <el-dialog v-model="showRegisterDialog" title="用户注册" width="400px" align-center>
-      <el-form ref="registerFormRef" :model="registerForm" :rules="registerRules" label-width="80px">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="registerForm.username" placeholder="请输入用户名" />
-        </el-form-item>
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="registerForm.name" placeholder="请输入真实姓名" />
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="registerForm.email" placeholder="请输入邮箱地址" />
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input 
-            v-model="registerForm.password" 
-            type="password" 
-            placeholder="请输入密码"
-            show-password
-          />
-        </el-form-item>
-        <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input 
-            v-model="registerForm.confirmPassword" 
-            type="password" 
-            placeholder="请再次输入密码"
-            show-password
-            @keyup.enter="handleRegister"
-          />
-        </el-form-item>
-      </el-form>
-      
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="showRegisterDialog = false">取消</el-button>
-          <el-button type="primary" :loading="registerLoading" @click="handleRegister">
-            注册
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
+        <!-- 登录对话框 -->
+        <el-dialog v-model="showLoginDialog" title="用户登录" width="400px" align-center>
+          <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" label-width="80px">
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="loginForm.username" placeholder="请输入用户名或邮箱" />
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input
+                v-model="loginForm.password"
+                type="password"
+                placeholder="请输入密码"
+                show-password
+                @keyup.enter="handleLogin"
+              />
+            </el-form-item>
+          </el-form>
+
+          <div class="login-tips">
+            <p>演示账号：demo，密码：123456</p>
+          </div>
+
+          <template #footer>
+            <div class="dialog-footer">
+              <el-button @click="showLoginDialog = false">取消</el-button>
+              <el-button type="primary" :loading="loginLoading" @click="handleLogin">
+                登录
+              </el-button>
+            </div>
+          </template>
+        </el-dialog>
+
+        <!-- 注册对话框 -->
+        <el-dialog v-model="showRegisterDialog" title="用户注册" width="400px" align-center>
+          <el-form
+            ref="registerFormRef"
+            :model="registerForm"
+            :rules="registerRules"
+            label-width="80px"
+          >
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="registerForm.username" placeholder="请输入用户名" />
+            </el-form-item>
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="registerForm.name" placeholder="请输入真实姓名" />
+            </el-form-item>
+            <el-form-item label="邮箱" prop="email">
+              <el-input v-model="registerForm.email" placeholder="请输入邮箱地址" />
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input
+                v-model="registerForm.password"
+                type="password"
+                placeholder="请输入密码"
+                show-password
+              />
+            </el-form-item>
+            <el-form-item label="确认密码" prop="confirmPassword">
+              <el-input
+                v-model="registerForm.confirmPassword"
+                type="password"
+                placeholder="请再次输入密码"
+                show-password
+                @keyup.enter="handleRegister"
+              />
+            </el-form-item>
+          </el-form>
+
+          <template #footer>
+            <div class="dialog-footer">
+              <el-button @click="showRegisterDialog = false">取消</el-button>
+              <el-button type="primary" :loading="registerLoading" @click="handleRegister">
+                注册
+              </el-button>
+            </div>
+          </template>
+        </el-dialog>
       </div>
     </div>
   </header>
@@ -161,7 +168,7 @@ const registerFormRef = ref<InstanceType<typeof ElForm>>()
 // 登录表单
 const loginForm = reactive({
   username: '',
-  password: ''
+  password: '',
 })
 
 // 注册表单
@@ -170,49 +177,45 @@ const registerForm = reactive({
   name: '',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
 })
 
 // 表单验证规则
 const loginRules = {
-  username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' }
-  ],
+  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码长度不能少于6位', trigger: 'blur' }
-  ]
+    { min: 6, message: '密码长度不能少于6位', trigger: 'blur' },
+  ],
 }
 
 const registerRules = {
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 20, message: '用户名长度为3-20位', trigger: 'blur' }
+    { min: 3, max: 20, message: '用户名长度为3-20位', trigger: 'blur' },
   ],
-  name: [
-    { required: true, message: '请输入真实姓名', trigger: 'blur' }
-  ],
+  name: [{ required: true, message: '请输入真实姓名', trigger: 'blur' }],
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
-    { type: 'email' as const, message: '请输入正确的邮箱格式', trigger: 'blur' }
+    { type: 'email' as const, message: '请输入正确的邮箱格式', trigger: 'blur' },
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码长度不能少于6位', trigger: 'blur' }
+    { min: 6, message: '密码长度不能少于6位', trigger: 'blur' },
   ],
   confirmPassword: [
     { required: true, message: '请确认密码', trigger: 'blur' },
-    { 
+    {
       validator: (rule: any, value: string, callback: Function) => {
         if (value !== registerForm.password) {
           callback(new Error('两次密码输入不一致'))
         } else {
           callback()
         }
-      }, 
-      trigger: 'blur' 
-    }
-  ]
+      },
+      trigger: 'blur',
+    },
+  ],
 }
 
 // 搜索处理
@@ -225,15 +228,15 @@ const handleSearch = () => {
 // 登录处理
 const handleLogin = async () => {
   if (!loginFormRef.value) return
-  
+
   const valid = await loginFormRef.value.validate().catch(() => false)
   if (!valid) return
-  
+
   loginLoading.value = true
-  
+
   try {
     const result = await userStore.login(loginForm.username, loginForm.password)
-    
+
     if (result.success) {
       ElMessage.success(result.message)
       showLoginDialog.value = false
@@ -253,15 +256,15 @@ const handleLogin = async () => {
 // 注册处理
 const handleRegister = async () => {
   if (!registerFormRef.value) return
-  
+
   const valid = await registerFormRef.value.validate().catch(() => false)
   if (!valid) return
-  
+
   registerLoading.value = true
-  
+
   try {
     const result = await userStore.register(registerForm)
-    
+
     if (result.success) {
       ElMessage.success(result.message)
       showRegisterDialog.value = false
@@ -271,7 +274,7 @@ const handleRegister = async () => {
         name: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
       })
     } else {
       ElMessage.error(result.message)
@@ -331,7 +334,7 @@ onMounted(() => {
 
     .logo-link {
       text-decoration: none;
-      
+
       .logo-text {
         font-size: 24px;
         font-weight: 700;
@@ -354,7 +357,8 @@ onMounted(() => {
       position: relative;
       transition: color 0.3s ease;
 
-      &:hover, &.router-link-active {
+      &:hover,
+      &.router-link-active {
         color: var(--primary-color);
       }
 
@@ -408,7 +412,7 @@ onMounted(() => {
         color: white;
       }
     }
-    
+
     .user-profile {
       display: flex;
       align-items: center;
@@ -417,24 +421,24 @@ onMounted(() => {
       padding: 8px 12px;
       border-radius: 20px;
       transition: background-color 0.3s;
-      
+
       &:hover {
         background: rgba(0, 0, 0, 0.05);
       }
-      
+
       .user-avatar {
         width: 32px;
         height: 32px;
         border-radius: 50%;
         object-fit: cover;
       }
-      
+
       .user-name {
         font-size: 14px;
         font-weight: 500;
         color: var(--text-primary);
       }
-      
+
       .dropdown-icon {
         font-size: 12px;
         color: var(--text-secondary);
@@ -450,7 +454,7 @@ onMounted(() => {
   background: #f0f8ff;
   border-radius: 6px;
   border-left: 4px solid var(--primary-color);
-  
+
   p {
     margin: 0;
     font-size: 13px;
@@ -479,11 +483,12 @@ onMounted(() => {
     }
 
     .user-actions {
-      .login-btn, .register-btn {
+      .login-btn,
+      .register-btn {
         padding: 6px 12px;
         font-size: 12px;
       }
     }
   }
 }
-</style> 
+</style>

@@ -47,6 +47,21 @@ const router = createRouter({
       name: 'instructors',
       component: () => import('../views/InstructorsView.vue'),
     },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/ProfileView.vue'),
+    },
+    {
+      path: '/progress',
+      name: 'progress',
+      component: () => import('../views/ProgressView.vue'),
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('../views/SettingsView.vue'),
+    },
   ],
 })
 
