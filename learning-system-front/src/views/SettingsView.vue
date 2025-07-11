@@ -3,6 +3,14 @@
     <div class="settings-container">
       <!-- 页面头部 -->
       <div class="settings-header">
+        <!-- 设置装饰元素 -->
+        <div class="header-decorations">
+          <div class="decoration-item settings-icon icon-1">⚙️</div>
+          <div class="decoration-item settings-icon icon-2">🔧</div>
+
+          <div class="decoration-item config-bubble bubble-1">个性化</div>
+        </div>
+
         <div class="header-content">
           <div class="header-left">
             <h1 class="page-title">账号设置</h1>
@@ -525,32 +533,132 @@ const resetPreferences = () => {
 }
 
 .settings-header {
+  position: relative;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 16px;
-  padding: 32px;
-  margin-bottom: 24px;
+  border-radius: 20px;
+  padding: 48px 40px;
+  margin-bottom: 32px;
   color: white;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+
+  // 配置主题装饰背景
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+    animation: settingsFloat 20s ease-in-out infinite;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  // 系统网格背景
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 35px 35px;
+    z-index: 1;
+  }
+
+  // 设置装饰元素
+  .header-decorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    .decoration-item {
+      position: absolute;
+      opacity: 0.6;
+
+      &.settings-icon {
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 16px;
+        will-change: transform;
+
+        &.icon-1 {
+          top: 30%;
+          left: 42%;
+          animation: settingsPulse 4s ease-in-out infinite;
+        }
+
+        &.icon-2 {
+          bottom: 35%;
+          left: 48%;
+          animation: settingsPulse 5s ease-in-out infinite 1s;
+        }
+      }
+
+      &.config-bubble {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        padding: 6px 12px;
+        font-size: 12px;
+        font-weight: 500;
+        backdrop-filter: blur(10px);
+        will-change: transform;
+
+        &.bubble-1 {
+          top: 25%;
+          left: 52%;
+          transform: rotate(-2deg);
+          animation: configFloat 6s ease-in-out infinite;
+        }
+      }
+    }
+  }
 
   .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 10;
 
     .header-left {
       .page-title {
-        font-size: 32px;
+        font-size: 36px;
         font-weight: 700;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
         background: linear-gradient(45deg, #fff, #e3f2fd);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        letter-spacing: -0.5px;
+        line-height: 1.2;
       }
 
       .page-subtitle {
-        font-size: 16px;
-        opacity: 0.9;
+        font-size: 18px;
+        opacity: 0.95;
         margin: 0;
+        font-weight: 500;
+        line-height: 1.4;
       }
     }
 

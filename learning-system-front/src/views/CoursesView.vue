@@ -2,6 +2,18 @@
   <div class="courses-view">
     <!-- 页面头部 -->
     <div class="page-header">
+      <!-- 教育装饰元素 -->
+      <div class="header-decorations">
+        <div class="decoration-item knowledge-icon icon-1">📚</div>
+        <div class="decoration-item knowledge-icon icon-2">🎓</div>
+        <div class="decoration-item knowledge-icon icon-3">💡</div>
+        <div class="decoration-item knowledge-icon icon-4">🔬</div>
+
+        <div class="decoration-item concept-bubble bubble-1">编程思维</div>
+        <div class="decoration-item concept-bubble bubble-2">技能成长</div>
+        <div class="decoration-item concept-bubble bubble-3">知识探索</div>
+      </div>
+
       <div class="container">
         <div class="header-content">
           <h1 class="page-title">全部课程</h1>
@@ -403,48 +415,202 @@ onMounted(() => {
 
 // 页面头部
 .page-header {
+  position: relative;
   background: linear-gradient(135deg, #1890ff 0%, #40a9ff 100%);
   color: white;
-  padding: 60px 0;
+  padding: 80px 0;
+  overflow: hidden;
+
+  // 教育主题装饰背景
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+    animation: coursesFloat 25s ease-in-out infinite;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  // 知识网格背景
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 1;
+  }
+
+  // 教育装饰元素
+  .header-decorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    pointer-events: none;
+
+    .decoration-item {
+      position: absolute;
+      opacity: 0.7;
+
+      &.knowledge-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 24px;
+        will-change: transform;
+
+        &.icon-1 {
+          top: 20%;
+          left: 15%;
+          animation: knowledgePulse 4s ease-in-out infinite;
+        }
+
+        &.icon-2 {
+          top: 60%;
+          right: 20%;
+          animation: knowledgePulse 5s ease-in-out infinite 1s;
+        }
+
+        &.icon-3 {
+          bottom: 25%;
+          left: 10%;
+          animation: knowledgePulse 3.5s ease-in-out infinite 2s;
+        }
+
+        &.icon-4 {
+          top: 30%;
+          right: 10%;
+          animation: knowledgePulse 4.5s ease-in-out infinite 1.5s;
+        }
+      }
+
+      &.concept-bubble {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        backdrop-filter: blur(15px);
+        will-change: transform;
+
+        &.bubble-1 {
+          top: 15%;
+          right: 30%;
+          transform: rotate(-8deg);
+          animation: conceptFloat 6s ease-in-out infinite;
+        }
+
+        &.bubble-2 {
+          bottom: 20%;
+          right: 25%;
+          transform: rotate(5deg);
+          animation: conceptFloat 7s ease-in-out infinite 1s;
+        }
+
+        &.bubble-3 {
+          top: 50%;
+          left: 20%;
+          transform: rotate(-3deg);
+          animation: conceptFloat 8s ease-in-out infinite 2s;
+        }
+      }
+    }
+  }
 
   .container {
     max-width: var(--container-max-width) !important;
     margin: 0 auto !important;
     padding: 0 var(--container-padding) !important;
+    position: relative;
+    z-index: 3;
   }
 
   .header-content {
     text-align: center;
     margin-bottom: 40px;
+    animation: fadeInUp 1s ease-out;
 
     .page-title {
       font-size: 42px;
       font-weight: 700;
       margin: 0 0 16px 0;
+      background: linear-gradient(45deg, #fff, #e6f7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .page-subtitle {
       font-size: 18px;
       margin: 0;
-      opacity: 0.9;
+      opacity: 0.95;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+        border-radius: 1px;
+      }
     }
   }
 
   .search-section {
     max-width: 600px;
     margin: 0 auto;
+    animation: slideInUp 0.8s ease-out 0.3s both;
 
     .search-input {
       :deep(.el-input__wrapper) {
-        background: white;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: 24px;
         padding: 0 20px;
         height: 48px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+          box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+        }
       }
 
       :deep(.el-input__inner) {
         font-size: 16px;
+        color: #333;
+
+        &::placeholder {
+          color: #999;
+        }
       }
     }
   }
@@ -848,6 +1014,61 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   margin-top: 40px;
+}
+
+// 动画定义
+@keyframes coursesFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-25px) rotate(3deg);
+  }
+}
+
+@keyframes knowledgePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.9;
+  }
+}
+
+@keyframes conceptFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(var(--initial-rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-20px) rotate(calc(var(--initial-rotation, 0deg) + 5deg));
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // 响应式设计

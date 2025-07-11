@@ -56,41 +56,27 @@
             </div>
           </div>
 
-          <!-- 价格和购买区域 -->
-          <div class="course-purchase">
-            <div class="price-section">
-              <div class="current-price">
-                <span class="currency">¥</span>
-                <span class="price">{{ course?.price }}</span>
+          <!-- AI助手互动区域 -->
+          <div class="ai-assistant-section">
+            <div class="ai-chat-container">
+              <!-- AI助手头像 -->
+              <div class="ai-avatar">
+                <div class="avatar-icon">🤖</div>
               </div>
-              <div class="original-price" v-if="course?.originalPrice">
-                ¥{{ course?.originalPrice }}
+
+              <!-- 对话气泡 -->
+              <div class="chat-bubble">
+                <p class="chat-message">Hi，同学，你可以通过向我提问的方式更深入地学习本课程</p>
+                <el-button type="primary" size="default" class="chat-btn" @click="openAIChat" round>
+                  立即提问
+                </el-button>
               </div>
             </div>
 
-            <div class="action-buttons">
-              <el-button
-                type="primary"
-                size="large"
-                class="start-learning-btn"
-                @click="startLearning"
-              >
-                <el-icon><VideoPlay /></el-icon>
-                立即学习
-              </el-button>
-              <el-button size="large" class="add-to-cart-btn" @click="addToCart">
-                <el-icon><ShoppingCart /></el-icon>
-                加入购物车
-              </el-button>
-            </div>
-
-            <!-- 学习进度 -->
-            <div class="learning-progress" v-if="course?.progress !== undefined">
-              <div class="progress-info">
-                <span>学习进度</span>
-                <span>{{ course.progress }}%</span>
-              </div>
-              <el-progress :percentage="course.progress" color="#ff6b35" />
+            <!-- 学习进度（简化显示） -->
+            <div class="simple-progress" v-if="course?.progress !== undefined">
+              <span class="progress-text">学习进度 {{ course.progress }}%</span>
+              <el-progress :percentage="course.progress" :show-text="false" stroke-width="4" />
             </div>
           </div>
         </div>
@@ -276,12 +262,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   VideoPlay,
   User,
   Clock,
   Star,
-  ShoppingCart,
   Folder,
   FolderOpened,
   ArrowDown,
@@ -507,7 +493,7 @@ const toggleChapter = (index: number) => {
   }
 }
 
-const playLesson = (lesson: any) => {
+const playLesson = (lesson: { id: string; locked: boolean }) => {
   if (!lesson.locked) {
     router.push(`/course/${course.value?.id}/lesson/${lesson.id}`)
   }
@@ -520,9 +506,22 @@ const startLearning = () => {
   }
 }
 
-const addToCart = () => {
-  console.log('添加到购物车:', course.value?.title)
-  // 这里可以添加购物车逻辑
+const openAIChat = () => {
+  console.log('打开AI对话界面:', course.value?.title)
+  // 显示AI对话提示弹窗
+  ElMessageBox.alert(
+    `您正在与AI助手"小智"开始对话，TA将帮助您更好地理解《${course.value?.title}》这门课程的内容。`,
+    'AI学习助手',
+    {
+      confirmButtonText: '开始对话',
+      type: 'info',
+      customClass: 'ai-chat-dialog',
+      showClose: false,
+    },
+  ).then(() => {
+    // 这里可以跳转到AI对话页面或打开AI对话组件
+    ElMessage.success('AI对话功能即将上线，敬请期待！')
+  })
 }
 
 const goToCourse = (courseId: string) => {
@@ -547,32 +546,37 @@ const formatDate = (date: Date) => {
 }
 
 .course-header {
+  position: relative;
   background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
   color: white;
-  padding: 40px 0;
+  padding: 25px 0;
+  overflow: hidden;
 
   .course-header-content {
     max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 var(--container-padding);
     display: flex;
-    gap: 40px;
-    align-items: flex-start;
+    gap: 30px;
+    align-items: center;
+    position: relative;
   }
 }
 
 .course-main-info {
-  flex: 1;
+  flex: 2;
   display: flex;
-  gap: 30px;
+  gap: 25px;
+  align-items: center;
 
   .course-image {
     position: relative;
-    width: 300px;
-    height: 200px;
+    width: 240px;
+    height: 160px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
 
     img {
       width: 100%;
@@ -624,23 +628,23 @@ const formatDate = (date: Date) => {
     }
 
     .course-title {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: bold;
-      margin: 0 0 15px 0;
+      margin: 0 0 12px 0;
       line-height: 1.3;
     }
 
     .course-description {
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 25px;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 20px;
       opacity: 0.9;
     }
 
     .course-stats {
       display: flex;
-      gap: 30px;
-      margin-bottom: 25px;
+      gap: 25px;
+      margin-bottom: 20px;
 
       .stat-item {
         display: flex;
@@ -660,8 +664,8 @@ const formatDate = (date: Date) => {
       gap: 15px;
 
       .instructor-avatar {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
         border-radius: 50%;
         border: 3px solid rgba(255, 255, 255, 0.3);
       }
@@ -683,77 +687,104 @@ const formatDate = (date: Date) => {
   }
 }
 
-.course-purchase {
-  width: 300px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 30px;
+.ai-assistant-section {
+  flex: 1;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 
-  .price-section {
-    text-align: center;
-    margin-bottom: 25px;
-
-    .current-price {
-      .currency {
-        font-size: 20px;
-        vertical-align: top;
-      }
-
-      .price {
-        font-size: 36px;
-        font-weight: bold;
-      }
-    }
-
-    .original-price {
-      font-size: 16px;
-      opacity: 0.7;
-      text-decoration: line-through;
-      margin-top: 5px;
-    }
-  }
-
-  .action-buttons {
+  .ai-chat-container {
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
     gap: 12px;
-    margin-bottom: 25px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
 
-    .el-button {
-      height: 48px;
-      font-size: 16px;
-      font-weight: 600;
-      border-radius: 8px;
+  .ai-avatar {
+    flex-shrink: 0;
 
-      &.start-learning-btn {
-        background: white;
-        color: #ff6b35;
-        border: none;
+    .avatar-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
 
-        &:hover {
-          background: #f0f0f0;
-        }
-      }
+  .chat-bubble {
+    flex: 1;
+    position: relative;
 
-      &.add-to-cart-btn {
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        color: white;
+    &::before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 12px;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 8px solid rgba(255, 255, 255, 0.95);
+    }
 
-        &:hover {
-          background: rgba(255, 255, 255, 0.3);
-        }
+    .chat-message {
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin: 0 0 12px 0;
+      font-size: 14px;
+      line-height: 1.4;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-btn {
+      background: #667eea;
+      border-color: #667eea;
+      color: white;
+      font-size: 13px;
+      padding: 8px 20px;
+      height: auto;
+      font-weight: 500;
+
+      &:hover {
+        background: #5a67d8;
+        border-color: #5a67d8;
+        transform: translateY(-1px);
       }
     }
   }
 
-  .learning-progress {
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      font-size: 14px;
+  .simple-progress {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    .progress-text {
+      display: block;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 8px;
+    }
+
+    :deep(.el-progress-bar__outer) {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    :deep(.el-progress-bar__inner) {
+      background-color: #667eea;
     }
   }
 }
@@ -1148,27 +1179,176 @@ const formatDate = (date: Date) => {
   }
 }
 
+@keyframes settingsFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
+}
+
+@keyframes settingsPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.8;
+  }
+}
+
+@keyframes configFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(var(--initial-rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-16px) rotate(calc(var(--initial-rotation, 0deg) + 3deg));
+  }
+}
+
+@keyframes progressFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-24px) rotate(1deg);
+  }
+}
+
+@keyframes progressPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.9;
+  }
+}
+
+@keyframes milestoneFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(var(--initial-rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-20px) rotate(calc(var(--initial-rotation, 0deg) + 4deg));
+  }
+}
+
+@keyframes profileFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(1deg);
+  }
+}
+
+@keyframes growthPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.85;
+  }
+}
+
+@keyframes achievementFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(var(--initial-rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-15px) rotate(calc(var(--initial-rotation, 0deg) + 3deg));
+  }
+}
+
 // 响应式设计
 @media (max-width: 768px) {
   .course-header {
+    padding: 20px 0;
+
     .course-header-content {
       flex-direction: column;
-      gap: 30px;
+      gap: 20px;
+      align-items: stretch;
     }
 
     .course-main-info {
       flex-direction: column;
-      gap: 20px;
+      gap: 15px;
+      align-items: center;
 
       .course-image {
         width: 100%;
-        max-width: 300px;
+        max-width: 240px;
+        height: 140px;
         margin: 0 auto;
+      }
+
+      .course-info {
+        text-align: center;
+
+        .course-title {
+          font-size: 24px;
+        }
+
+        .course-description {
+          font-size: 14px;
+        }
+
+        .course-stats {
+          justify-content: center;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+
+        .instructor-info {
+          justify-content: center;
+        }
       }
     }
 
-    .course-purchase {
+    .ai-assistant-section {
+      max-width: none;
       width: 100%;
+
+      .ai-chat-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+
+      .ai-avatar .avatar-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        margin: 0 auto;
+      }
+
+      .chat-bubble {
+        .chat-message {
+          font-size: 13px;
+          padding: 10px 12px;
+        }
+
+        .chat-btn {
+          font-size: 12px;
+          padding: 6px 16px;
+        }
+      }
     }
   }
 
@@ -1179,6 +1359,69 @@ const formatDate = (date: Date) => {
 
   .courses-grid {
     grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-header {
+    padding: 15px 0;
+
+    .course-header-content {
+      gap: 15px;
+    }
+
+    .course-main-info {
+      .course-image {
+        height: 120px;
+      }
+
+      .course-info {
+        .course-title {
+          font-size: 20px;
+        }
+
+        .course-stats {
+          .stat-item {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    .ai-assistant-section {
+      gap: 10px;
+
+      .ai-chat-container {
+        padding: 15px;
+        gap: 10px;
+      }
+
+      .ai-avatar .avatar-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+      }
+
+      .chat-bubble {
+        .chat-message {
+          font-size: 12px;
+          padding: 8px 10px;
+        }
+
+        .chat-btn {
+          font-size: 11px;
+          padding: 5px 12px;
+        }
+      }
+
+      .simple-progress {
+        padding: 8px;
+
+        .progress-text {
+          font-size: 11px;
+        }
+      }
+    }
   }
 }
 </style>

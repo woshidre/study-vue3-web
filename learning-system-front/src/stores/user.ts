@@ -1,6 +1,42 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+// 最近学习记录接口
+export interface RecentLearning {
+  courseId: string
+  courseTitle: string
+  courseImage: string
+  lessonId: string
+  lessonTitle: string
+  progress: number
+  lastStudyTime: string
+  totalLessons: number
+  completedLessons: number
+}
+
+// 学习目标接口
+export interface LearningGoal {
+  id: string
+  title: string
+  type: 'daily' | 'weekly' | 'monthly'
+  target: number
+  current: number
+  unit: 'minutes' | 'lessons' | 'courses'
+  startDate: string
+  endDate: string
+}
+
+// 学习成就接口
+export interface Achievement {
+  id: string
+  title: string
+  description: string
+  icon: string
+  earnedDate?: string
+  progress?: number
+  target?: number
+}
+
 // 用户信息接口
 export interface User {
   id: string
@@ -14,12 +50,18 @@ export interface User {
     completedCourses: number
     totalStudyTime: number
     certificates: number
+    consecutiveDays: number
+    todayStudyTime: number
+    weeklyStudyTime: number
   }
   preferences: {
     language: string
     notifications: boolean
     darkMode: boolean
   }
+  recentLearning: RecentLearning[]
+  learningGoals: LearningGoal[]
+  achievements: Achievement[]
 }
 
 // 学习进度接口
@@ -45,18 +87,91 @@ export const useUserStore = defineStore('user', () => {
       email: 'demo@example.com',
       password: '123456', // 实际项目中不应该明文存储密码
       avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-      name: '演示用户',
+      name: '张三丰',
       joinDate: '2024-01-01',
       learningProgress: {
         completedCourses: 3,
         totalStudyTime: 150,
         certificates: 2,
+        consecutiveDays: 7,
+        todayStudyTime: 45,
+        weeklyStudyTime: 280,
       },
       preferences: {
         language: 'zh-CN',
         notifications: true,
         darkMode: false,
       },
+      recentLearning: [
+        {
+          courseId: '1',
+          courseTitle: 'Vue3 从零到一开发整站',
+          courseImage: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
+          lessonId: '1-2-1',
+          lessonTitle: 'Trae 安装与环境配置',
+          progress: 75,
+          lastStudyTime: new Date().toISOString(),
+          totalLessons: 25,
+          completedLessons: 18,
+        },
+        {
+          courseId: '2',
+          courseTitle: 'React 进阶实战',
+          courseImage: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
+          lessonId: '2-1-3',
+          lessonTitle: 'Hook 深入理解',
+          progress: 40,
+          lastStudyTime: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+          totalLessons: 20,
+          completedLessons: 8,
+        },
+      ],
+      learningGoals: [
+        {
+          id: 'daily-1',
+          title: '每日学习时长',
+          type: 'daily' as const,
+          target: 60,
+          current: 45,
+          unit: 'minutes' as const,
+          startDate: new Date().toISOString().split('T')[0],
+          endDate: new Date().toISOString().split('T')[0],
+        },
+        {
+          id: 'weekly-1',
+          title: '本周完成课程',
+          type: 'weekly' as const,
+          target: 3,
+          current: 1,
+          unit: 'lessons' as const,
+          startDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          endDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        },
+      ],
+      achievements: [
+        {
+          id: 'first-course',
+          title: '初学者',
+          description: '完成第一门课程',
+          icon: '🎓',
+          earnedDate: '2024-01-15',
+        },
+        {
+          id: 'week-streak',
+          title: '学习达人',
+          description: '连续学习7天',
+          icon: '🔥',
+          earnedDate: new Date().toISOString().split('T')[0],
+        },
+        {
+          id: 'hour-master',
+          title: '时间大师',
+          description: '单日学习超过2小时',
+          icon: '⏰',
+          progress: 80,
+          target: 120,
+        },
+      ],
     },
   ]
 
@@ -71,7 +186,7 @@ export const useUserStore = defineStore('user', () => {
       )
 
       if (foundUser) {
-        const { password: _, ...userWithoutPassword } = foundUser
+        const { password, ...userWithoutPassword } = foundUser
         user.value = userWithoutPassword
         isLoggedIn.value = true
 
@@ -125,12 +240,18 @@ export const useUserStore = defineStore('user', () => {
           completedCourses: 0,
           totalStudyTime: 0,
           certificates: 0,
+          consecutiveDays: 0,
+          todayStudyTime: 0,
+          weeklyStudyTime: 0,
         },
         preferences: {
-          language: 'zh-CN',
+          language: 'zh-CN' as const,
           notifications: true,
           darkMode: false,
         },
+        recentLearning: [],
+        learningGoals: [],
+        achievements: [],
       }
 
       mockUsers.push(newUser)

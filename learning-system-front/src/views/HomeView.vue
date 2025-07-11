@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { mockBanners, mockCategories, courses, mockInstructors } from '@/data/mockData'
+
 import {
   TrendCharts,
   User,
@@ -11,6 +12,7 @@ import {
   Star,
   Medal,
   ChatDotSquare,
+  VideoPlay,
 } from '@element-plus/icons-vue'
 
 const router = useRouter()
@@ -80,6 +82,26 @@ const goToLink = (link: string) => {
   console.log('点击链接:', link)
   // router.push(link)
 }
+
+// 继续学习功能
+const continueLearning = (course: { courseId: string; lessonId: string }) => {
+  router.push(`/course/${course.courseId}/lesson/${course.lessonId}`)
+}
+
+// 获取今日学习目标
+const dailyGoal = computed(() => {
+  return userStore.user?.learningGoals?.find((goal) => goal.type === 'daily') || null
+})
+
+// 获取单位文本
+const getUnitText = (unit: string) => {
+  const unitMap: Record<string, string> = {
+    minutes: '分钟',
+    lessons: '课时',
+    courses: '门课程',
+  }
+  return unitMap[unit] || unit
+}
 </script>
 
 <template>
@@ -145,36 +167,117 @@ const goToLink = (link: string) => {
                   <img :src="userStore.user?.avatar" :alt="userStore.user?.name" />
                 </div>
                 <div class="user-info">
-                  <h3 class="user-name">{{ userStore.user?.name }}</h3>
-                  <p class="user-level">学习达人</p>
+                  <span class="user-name">{{ userStore.user?.name }}</span>
+                  <span class="user-level">学习达人</span>
                 </div>
               </div>
 
-              <div class="quick-stats">
-                <div class="stat-item">
-                  <span class="stat-value">{{
-                    userStore.user?.learningProgress?.completedCourses || 0
-                  }}</span>
-                  <span class="stat-label">已学课程</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-value"
-                    >{{
-                      Math.floor((userStore.user?.learningProgress?.totalStudyTime || 0) / 60)
-                    }}h</span
+              <!-- 继续学习区域 -->
+              <div class="continue-learning-panel">
+                <h4 class="panel-title">继续学习</h4>
+                <div v-if="userStore.user?.recentLearning?.length" class="recent-courses">
+                  <div
+                    v-for="course in userStore.user.recentLearning.slice(0, 2)"
+                    :key="course.courseId"
+                    class="recent-course-item"
+                    @click="continueLearning(course)"
                   >
-                  <span class="stat-label">学习时长</span>
+                    <div class="course-thumbnail">
+                      <img :src="course.courseImage" :alt="course.courseTitle" />
+                      <div class="play-overlay">
+                        <el-icon><VideoPlay /></el-icon>
+                      </div>
+                    </div>
+                    <div class="course-details">
+                      <h5 class="course-title">{{ course.courseTitle }}</h5>
+                      <p class="lesson-title">{{ course.lessonTitle }}</p>
+                      <div class="course-progress">
+                        <el-progress
+                          :percentage="course.progress"
+                          :show-text="false"
+                          stroke-width="4"
+                          color="#ff6b35"
+                        />
+                        <span class="progress-text"
+                          >{{ course.completedLessons }}/{{ course.totalLessons }}课时</span
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="stat-item">
-                  <span class="stat-value">{{
-                    userStore.user?.learningProgress?.certificates || 0
-                  }}</span>
-                  <span class="stat-label">证书获得</span>
+                <div v-else class="no-recent-learning">
+                  <p>还没有学习记录</p>
+                  <el-button type="primary" size="small" @click="router.push('/courses')">
+                    开始学习
+                  </el-button>
                 </div>
               </div>
 
+              <!-- 今日学习目标 -->
+              <div class="daily-goal-panel">
+                <h4 class="panel-title">今日目标</h4>
+                <div v-if="dailyGoal" class="goal-content">
+                  <div class="goal-progress">
+                    <div class="goal-ring">
+                      <el-progress
+                        type="circle"
+                        :percentage="(dailyGoal.current / dailyGoal.target) * 100"
+                        :width="60"
+                        :stroke-width="6"
+                        color="#67C23A"
+                      />
+                    </div>
+                    <div class="goal-details">
+                      <div class="goal-text">
+                        <span class="current">{{ dailyGoal.current }}</span>
+                        <span class="separator">/</span>
+                        <span class="target">{{ dailyGoal.target }}</span>
+                        <span class="unit">{{ getUnitText(dailyGoal.unit) }}</span>
+                      </div>
+                      <p class="goal-title">{{ dailyGoal.title }}</p>
+                    </div>
+                  </div>
+                  <div class="streak-info">
+                    <span class="streak-icon">🔥</span>
+                    <span class="streak-text"
+                      >连续学习
+                      {{ userStore.user?.learningProgress?.consecutiveDays || 0 }} 天</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- 学习成就 -->
+              <div class="achievements-panel">
+                <h4 class="panel-title">学习成就</h4>
+                <div class="achievements-grid">
+                  <div
+                    v-for="achievement in userStore.user?.achievements?.slice(0, 3)"
+                    :key="achievement.id"
+                    class="achievement-item"
+                    :class="{ earned: achievement.earnedDate }"
+                  >
+                    <div class="achievement-icon">{{ achievement.icon }}</div>
+                    <div class="achievement-info">
+                      <span class="achievement-title">{{ achievement.title }}</span>
+                      <div
+                        v-if="achievement.progress && achievement.target"
+                        class="achievement-progress"
+                      >
+                        <el-progress
+                          :percentage="(achievement.progress / achievement.target) * 100"
+                          :show-text="false"
+                          stroke-width="3"
+                          color="#F56C6C"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 快速操作 -->
               <div class="quick-actions-panel">
-                <h4 class="panel-title">快速跳转</h4>
                 <div class="action-buttons">
                   <router-link to="/progress" class="action-btn">
                     <el-icon><TrendCharts /></el-icon>
@@ -184,24 +287,14 @@ const goToLink = (link: string) => {
                     <el-icon><User /></el-icon>
                     <span>个人中心</span>
                   </router-link>
-                  <router-link to="/settings" class="action-btn">
-                    <el-icon><Setting /></el-icon>
-                    <span>设置</span>
-                  </router-link>
                   <router-link to="/courses" class="action-btn">
                     <el-icon><Reading /></el-icon>
                     <span>全部课程</span>
                   </router-link>
-                </div>
-              </div>
-
-              <div class="learning-progress">
-                <h4 class="panel-title">今日学习</h4>
-                <div class="progress-info">
-                  <div class="progress-bar">
-                    <div class="progress-fill" style="width: 65%"></div>
-                  </div>
-                  <span class="progress-text">已学习 2.5小时 / 目标 4小时</span>
+                  <router-link to="/settings" class="action-btn">
+                    <el-icon><Setting /></el-icon>
+                    <span>设置</span>
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -394,7 +487,7 @@ const goToLink = (link: string) => {
       padding: 12px;
       border: 1px solid var(--border-primary);
       height: fit-content;
-      max-height: 300px;
+      max-height: 400px;
       overflow-y: auto;
     }
 
@@ -530,11 +623,11 @@ const goToLink = (link: string) => {
       .user-welcome {
         display: flex;
         align-items: center;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
 
         .user-avatar {
-          width: 36px;
-          height: 36px;
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
           overflow: hidden;
           margin-right: 10px;
@@ -547,40 +640,21 @@ const goToLink = (link: string) => {
         }
 
         .user-info {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
           .user-name {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 2px;
           }
           .user-level {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--primary);
-          }
-        }
-      }
-
-      .quick-stats {
-        display: flex;
-        justify-content: space-around;
-        margin-bottom: 16px;
-        padding: 12px;
-        background-color: var(--bg-secondary);
-        border-radius: 8px;
-
-        .stat-item {
-          text-align: center;
-
-          .stat-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 2px;
-            display: block;
-          }
-          .stat-label {
-            font-size: 12px;
-            color: var(--text-tertiary);
+            background: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 10px;
           }
         }
       }
@@ -656,6 +730,281 @@ const goToLink = (link: string) => {
           .progress-text {
             font-size: 11px;
             color: var(--text-tertiary);
+          }
+        }
+      }
+
+      // 继续学习面板
+      .continue-learning-panel {
+        margin-bottom: 16px;
+
+        .panel-title {
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 8px;
+          color: var(--text-primary);
+        }
+
+        .recent-courses {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .recent-course-item {
+          display: flex;
+          gap: 8px;
+          padding: 8px;
+          background: var(--bg-secondary);
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: var(--background-light);
+            transform: translateY(-1px);
+          }
+
+          .course-thumbnail {
+            position: relative;
+            width: 40px;
+            height: 30px;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+
+            .play-overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: rgba(0, 0, 0, 0.5);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              opacity: 0;
+              transition: opacity 0.2s ease;
+
+              .el-icon {
+                color: white;
+                font-size: 12px;
+              }
+            }
+
+            &:hover .play-overlay {
+              opacity: 1;
+            }
+          }
+
+          .course-details {
+            flex: 1;
+            min-width: 0;
+
+            .course-title {
+              font-size: 12px;
+              font-weight: 600;
+              margin: 0 0 2px 0;
+              color: var(--text-primary);
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            .lesson-title {
+              font-size: 10px;
+              color: var(--text-secondary);
+              margin: 0 0 4px 0;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            .course-progress {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+
+              :deep(.el-progress) {
+                flex: 1;
+                .el-progress-bar__outer {
+                  height: 3px;
+                  background-color: var(--border-light);
+                }
+              }
+
+              .progress-text {
+                font-size: 9px;
+                color: var(--text-secondary);
+                white-space: nowrap;
+              }
+            }
+          }
+        }
+
+        .no-recent-learning {
+          text-align: center;
+          padding: 16px;
+          color: var(--text-secondary);
+
+          p {
+            margin: 0 0 8px 0;
+            font-size: 12px;
+          }
+        }
+      }
+
+      // 今日学习目标面板
+      .daily-goal-panel {
+        margin-bottom: 16px;
+
+        .panel-title {
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 8px;
+          color: var(--text-primary);
+        }
+
+        .goal-content {
+          .goal-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+
+            .goal-ring {
+              flex-shrink: 0;
+            }
+
+            .goal-details {
+              flex: 1;
+
+              .goal-text {
+                display: flex;
+                align-items: baseline;
+                gap: 2px;
+                margin-bottom: 2px;
+
+                .current {
+                  font-size: 16px;
+                  font-weight: bold;
+                  color: var(--primary-color);
+                }
+
+                .separator {
+                  font-size: 12px;
+                  color: var(--text-secondary);
+                }
+
+                .target {
+                  font-size: 12px;
+                  color: var(--text-secondary);
+                }
+
+                .unit {
+                  font-size: 10px;
+                  color: var(--text-secondary);
+                }
+              }
+
+              .goal-title {
+                font-size: 10px;
+                color: var(--text-secondary);
+                margin: 0;
+              }
+            }
+          }
+
+          .streak-info {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 8px;
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
+            border-radius: 4px;
+            color: white;
+
+            .streak-icon {
+              font-size: 12px;
+            }
+
+            .streak-text {
+              font-size: 10px;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+
+      // 学习成就面板
+      .achievements-panel {
+        margin-bottom: 16px;
+
+        .panel-title {
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 8px;
+          color: var(--text-primary);
+        }
+
+        .achievements-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .achievement-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 8px;
+          background: var(--bg-secondary);
+          border-radius: 4px;
+          opacity: 0.6;
+          transition: all 0.2s ease;
+
+          &.earned {
+            opacity: 1;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+
+            .achievement-icon {
+              filter: none;
+            }
+
+            .achievement-title {
+              color: white;
+            }
+          }
+
+          .achievement-icon {
+            font-size: 16px;
+            filter: grayscale(1);
+          }
+
+          .achievement-info {
+            flex: 1;
+            min-width: 0;
+
+            .achievement-title {
+              font-size: 11px;
+              font-weight: 500;
+              margin-bottom: 2px;
+              color: var(--text-primary);
+            }
+
+            .achievement-progress {
+              :deep(.el-progress-bar__outer) {
+                height: 2px;
+                background-color: rgba(255, 255, 255, 0.3);
+              }
+            }
           }
         }
       }

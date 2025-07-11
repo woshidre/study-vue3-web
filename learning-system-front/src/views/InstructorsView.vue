@@ -2,6 +2,20 @@
   <div class="instructors-view">
     <!-- 页面头部 -->
     <div class="page-header">
+      <!-- 教学装饰元素 -->
+      <div class="header-decorations">
+        <div class="decoration-item teaching-icon icon-1">👨‍🏫</div>
+        <div class="decoration-item teaching-icon icon-2">🎯</div>
+        <div class="decoration-item teaching-icon icon-3">📊</div>
+        <div class="decoration-item teaching-icon icon-4">🏆</div>
+        <div class="decoration-item teaching-icon icon-5">💼</div>
+
+        <div class="decoration-item expertise-bubble bubble-1">编程导师</div>
+        <div class="decoration-item expertise-bubble bubble-2">架构专家</div>
+        <div class="decoration-item expertise-bubble bubble-3">技术分享</div>
+        <div class="decoration-item expertise-bubble bubble-4">实战经验</div>
+      </div>
+
       <div class="container">
         <div class="header-content">
           <h1 class="page-title">名师团队</h1>
@@ -169,11 +183,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import type { Instructor, Course } from '@/types/course'
+import type { Instructor } from '@/types/course'
 import { mockInstructors, courses } from '@/data/mockData'
 
 const router = useRouter()
@@ -226,29 +240,183 @@ const gotoCourse = (courseId: string) => {
 
 // 页面头部
 .page-header {
+  position: relative;
   background: linear-gradient(135deg, #fa8c16 0%, #ffa940 100%);
   color: white;
-  padding: 80px 0;
+  padding: 100px 0;
+  overflow: hidden;
+
+  // 教学主题装饰背景
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+    animation: instructorFloat 22s ease-in-out infinite;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  // 教育网格背景
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 45px 45px;
+    z-index: 1;
+  }
+
+  // 教学装饰元素
+  .header-decorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    pointer-events: none;
+
+    .decoration-item {
+      position: absolute;
+      opacity: 0.75;
+
+      &.teaching-icon {
+        width: 55px;
+        height: 55px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        font-size: 26px;
+        will-change: transform;
+
+        &.icon-1 {
+          top: 18%;
+          left: 12%;
+          animation: teachingPulse 4.5s ease-in-out infinite;
+        }
+
+        &.icon-2 {
+          top: 55%;
+          right: 18%;
+          animation: teachingPulse 5.5s ease-in-out infinite 1s;
+        }
+
+        &.icon-3 {
+          bottom: 22%;
+          left: 8%;
+          animation: teachingPulse 3.8s ease-in-out infinite 2s;
+        }
+
+        &.icon-4 {
+          top: 25%;
+          right: 8%;
+          animation: teachingPulse 4.8s ease-in-out infinite 1.5s;
+        }
+
+        &.icon-5 {
+          bottom: 35%;
+          right: 35%;
+          animation: teachingPulse 4.2s ease-in-out infinite 0.5s;
+        }
+      }
+
+      &.expertise-bubble {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 14px;
+        padding: 12px 18px;
+        font-size: 15px;
+        font-weight: 600;
+        backdrop-filter: blur(18px);
+        will-change: transform;
+
+        &.bubble-1 {
+          top: 12%;
+          right: 28%;
+          transform: rotate(-6deg);
+          animation: expertiseFloat 7s ease-in-out infinite;
+        }
+
+        &.bubble-2 {
+          bottom: 18%;
+          right: 22%;
+          transform: rotate(4deg);
+          animation: expertiseFloat 8s ease-in-out infinite 1.5s;
+        }
+
+        &.bubble-3 {
+          top: 45%;
+          left: 18%;
+          transform: rotate(-2deg);
+          animation: expertiseFloat 9s ease-in-out infinite 3s;
+        }
+
+        &.bubble-4 {
+          bottom: 45%;
+          left: 35%;
+          transform: rotate(3deg);
+          animation: expertiseFloat 6.5s ease-in-out infinite 2s;
+        }
+      }
+    }
+  }
 
   .container {
     max-width: var(--container-max-width) !important;
     margin: 0 auto !important;
     padding: 0 var(--container-padding) !important;
+    position: relative;
+    z-index: 3;
   }
 
   .header-content {
     text-align: center;
+    animation: fadeInUp 1s ease-out;
 
     .page-title {
       font-size: 48px;
       font-weight: 700;
       margin: 0 0 20px 0;
+      background: linear-gradient(45deg, #fff, #fff5e6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+        border-radius: 2px;
+      }
     }
 
     .page-subtitle {
       font-size: 20px;
       margin: 0;
-      opacity: 0.9;
+      opacity: 0.95;
+      animation: slideInUp 0.8s ease-out 0.2s both;
     }
   }
 }
@@ -519,6 +687,61 @@ const gotoCourse = (courseId: string) => {
 
 .dialog-footer {
   text-align: right;
+}
+
+// 动画定义
+@keyframes instructorFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(2deg);
+  }
+}
+
+@keyframes teachingPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.9;
+  }
+}
+
+@keyframes expertiseFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(var(--initial-rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-18px) rotate(calc(var(--initial-rotation, 0deg) + 4deg));
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // 响应式设计

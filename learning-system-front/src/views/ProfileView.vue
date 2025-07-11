@@ -3,6 +3,15 @@
     <div class="profile-container">
       <!-- 用户档案头部 -->
       <div class="profile-header">
+        <!-- 个人成长装饰元素 -->
+        <div class="header-decorations">
+          <div class="decoration-item growth-icon icon-1">📈</div>
+          <div class="decoration-item growth-icon icon-2">🎯</div>
+
+          <div class="decoration-item achievement-bubble bubble-1">学习达人</div>
+          <div class="decoration-item achievement-bubble bubble-2">持续成长</div>
+        </div>
+
         <div class="user-info-section">
           <div class="user-avatar-area">
             <div class="avatar-container">
@@ -371,16 +380,119 @@ onMounted(() => {
 }
 
 .profile-header {
+  position: relative;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 16px;
-  padding: 40px;
+  border-radius: 20px;
+  padding: 50px 40px;
   margin-bottom: 32px;
   color: white;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+
+  // 个人成长主题装饰背景
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+    animation: profileFloat 18s ease-in-out infinite;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  // 成长轨迹网格
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 1;
+  }
+
+  // 个人成长装饰元素
+  .header-decorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    .decoration-item {
+      position: absolute;
+      opacity: 0.7;
+
+      &.growth-icon {
+        width: 35px;
+        height: 35px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        font-size: 18px;
+        will-change: transform;
+
+        &.icon-1 {
+          top: 25%;
+          left: 45%;
+          animation: growthPulse 4s ease-in-out infinite;
+        }
+
+        &.icon-2 {
+          bottom: 30%;
+          left: 40%;
+          animation: growthPulse 5s ease-in-out infinite 1s;
+        }
+      }
+
+      &.achievement-bubble {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 8px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        backdrop-filter: blur(12px);
+        will-change: transform;
+
+        &.bubble-1 {
+          top: 20%;
+          left: 50%;
+          transform: rotate(-3deg);
+          animation: achievementFloat 6s ease-in-out infinite;
+        }
+
+        &.bubble-2 {
+          bottom: 25%;
+          left: 55%;
+          transform: rotate(2deg);
+          animation: achievementFloat 7s ease-in-out infinite 1.5s;
+        }
+      }
+    }
+  }
 
   .user-info-section {
     display: flex;
     gap: 32px;
     align-items: flex-start;
+    position: relative;
+    z-index: 10;
 
     .user-avatar-area {
       .avatar-container {

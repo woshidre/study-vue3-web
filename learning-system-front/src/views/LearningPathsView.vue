@@ -2,27 +2,50 @@
   <div class="learning-paths-view">
     <!-- 页面头部 -->
     <section class="hero-section">
+      <!-- AI装饰元素 -->
+      <div class="hero-decorations">
+        <div class="decoration-item code-snippet snippet-1">import { AI } from 'future'</div>
+        <div class="decoration-item code-snippet snippet-2">model.train()</div>
+        <div class="decoration-item code-snippet snippet-3">ChatGPT.generate()</div>
+        <div class="decoration-item ai-icon icon-1">🤖</div>
+        <div class="decoration-item ai-icon icon-2">🧠</div>
+        <div class="decoration-item ai-icon icon-3">⚡</div>
+      </div>
+
       <div class="container">
         <div class="hero-content">
-          <h1 class="hero-title">AI大模型前沿知识</h1>
+          <h1 class="hero-title">
+            <span class="title-main">AI大模型前沿知识</span>
+            <span class="title-highlight">引领未来学习</span>
+          </h1>
           <div class="hero-stats">
-            <div class="stat-item">
-              <span class="stat-number">19</span>
-              <span class="stat-label">门课程</span>
+            <div class="stat-card">
+              <div class="stat-item">
+                <span class="stat-number">19</span>
+                <span class="stat-label">门课程</span>
+              </div>
             </div>
-            <div class="stat-item">
-              <span class="stat-number">126</span>
-              <span class="stat-label">小时</span>
+            <div class="stat-card">
+              <div class="stat-item">
+                <span class="stat-number">126</span>
+                <span class="stat-label">小时</span>
+              </div>
             </div>
-            <div class="stat-item">
-              <span class="stat-number">22.7w</span>
-              <span class="stat-label">人学习</span>
+            <div class="stat-card">
+              <div class="stat-item">
+                <span class="stat-number">22.7w</span>
+                <span class="stat-label">人学习</span>
+              </div>
             </div>
           </div>
-          <p class="hero-description">
-            ChatGPT 爆火，AI 大模型涌现，整个 AI 行业蓬勃发展，为了跟上时代节拍，整理了 200+
-            份专业资料，把控AI一线资讯全栈技术趋势。
-          </p>
+          <div class="hero-description-wrapper">
+            <p class="hero-description">
+              <span class="highlight-text">ChatGPT 爆火，AI 大模型涌现</span>，整个 AI
+              行业蓬勃发展，为了跟上时代节拍，整理了 <span class="highlight-number">200+</span>
+              份专业资料，把控AI一线资讯全栈技术趋势。
+            </p>
+            <div class="description-accent"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -225,58 +248,248 @@ const loadMoreCourses = () => {
 <style scoped lang="scss">
 .learning-paths-view {
   .hero-section {
+    position: relative;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 80px 0;
+    padding: 100px 0;
+    overflow: hidden;
+
+    // 装饰性背景元素
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+      z-index: 1;
+      will-change: transform; // 启用GPU加速
+    }
+
+    // 网格背景
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 1;
+    }
+
+    // AI装饰元素容器
+    .hero-decorations {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      pointer-events: none;
+
+      .decoration-item {
+        position: absolute;
+        opacity: 0.6;
+
+        &.code-snippet {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 8px;
+          padding: 8px 12px;
+          font-family: 'Monaco', 'Menlo', monospace;
+          font-size: 12px;
+          backdrop-filter: blur(10px);
+          will-change: transform; // 启用GPU加速
+
+          &.snippet-1 {
+            top: 20%;
+            left: 10%;
+            transform: rotate(-15deg);
+            animation: float-1 6s ease-in-out infinite;
+          }
+
+          &.snippet-2 {
+            top: 60%;
+            right: 15%;
+            transform: rotate(10deg);
+            animation: float-2 8s ease-in-out infinite;
+          }
+
+          &.snippet-3 {
+            bottom: 25%;
+            left: 5%;
+            transform: rotate(-8deg);
+            animation: float-3 7s ease-in-out infinite;
+          }
+        }
+
+        &.ai-icon {
+          width: 40px;
+          height: 40px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(10px);
+
+          &.icon-1 {
+            top: 15%;
+            right: 20%;
+            animation: pulse 4s ease-in-out infinite;
+          }
+
+          &.icon-2 {
+            bottom: 30%;
+            right: 10%;
+            animation: pulse 3s ease-in-out infinite 1s;
+          }
+
+          &.icon-3 {
+            top: 45%;
+            left: 8%;
+            animation: pulse 5s ease-in-out infinite 2s;
+          }
+        }
+      }
+    }
 
     // 确保头图有统一的最大宽度约束
     .container {
       max-width: var(--container-max-width) !important;
       margin: 0 auto !important;
       padding: 0 var(--container-padding) !important;
+      position: relative;
+      z-index: 3;
     }
 
     .hero-content {
       text-align: center;
+      animation: fadeInUp 1s ease-out;
 
       .hero-title {
-        font-size: 48px;
-        font-weight: 700;
-        margin-bottom: 32px;
+        margin-bottom: 40px;
         line-height: 1.2;
+
+        .title-main {
+          display: block;
+          font-size: 48px;
+          font-weight: 700;
+          margin-bottom: 8px;
+          background: linear-gradient(45deg, #fff, #e3f2fd);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .title-highlight {
+          display: block;
+          font-size: 24px;
+          font-weight: 500;
+          opacity: 0.9;
+          font-style: italic;
+        }
       }
 
       .hero-stats {
         display: flex;
         justify-content: center;
-        gap: 48px;
-        margin-bottom: 32px;
+        gap: 32px;
+        margin-bottom: 40px;
 
-        .stat-item {
-          text-align: center;
+        .stat-card {
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(15px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 16px;
+          padding: 24px 32px;
+          transition: all 0.3s ease;
+          animation: slideInUp 0.8s ease-out;
 
-          .stat-number {
-            display: block;
-            font-size: 36px;
-            font-weight: 700;
-            color: #ffd700;
-            line-height: 1;
+          &:nth-child(1) {
+            animation-delay: 0.1s;
+          }
+          &:nth-child(2) {
+            animation-delay: 0.2s;
+          }
+          &:nth-child(3) {
+            animation-delay: 0.3s;
           }
 
-          .stat-label {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-top: 4px;
+          &:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+          }
+
+          .stat-item {
+            text-align: center;
+
+            .stat-number {
+              display: block;
+              font-size: 36px;
+              font-weight: 700;
+              color: #ffd700;
+              line-height: 1;
+              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            .stat-label {
+              font-size: 14px;
+              opacity: 0.9;
+              margin-top: 8px;
+              font-weight: 500;
+            }
           }
         }
       }
 
-      .hero-description {
-        font-size: 18px;
-        line-height: 1.6;
-        opacity: 0.9;
+      .hero-description-wrapper {
+        position: relative;
         max-width: 800px;
         margin: 0 auto;
+
+        .hero-description {
+          font-size: 18px;
+          line-height: 1.6;
+          opacity: 0.95;
+          margin-bottom: 16px;
+          position: relative;
+          z-index: 2;
+
+          .highlight-text {
+            background: linear-gradient(45deg, #ffd700, #ffeb3b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+          }
+
+          .highlight-number {
+            color: #ffd700;
+            font-weight: 700;
+            font-size: 20px;
+          }
+        }
+
+        .description-accent {
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60px;
+          height: 3px;
+          background: linear-gradient(90deg, #ffd700, transparent, #ffd700);
+          border-radius: 2px;
+        }
       }
     }
   }
@@ -457,31 +670,134 @@ const loadMoreCourses = () => {
   }
 }
 
+// 动画定义
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes float-1 {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-15deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(-10deg);
+  }
+}
+
+@keyframes float-2 {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(10deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(15deg);
+  }
+}
+
+@keyframes float-3 {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-8deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(-12deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 // 响应式设计
 @media (max-width: 768px) {
   .learning-paths-view {
     .hero-section {
-      padding: 40px 0;
+      padding: 60px 0;
+
+      // 移动端隐藏装饰元素以提高性能
+      .hero-decorations {
+        display: none;
+      }
 
       .hero-content {
         .hero-title {
-          font-size: 32px;
-          margin-bottom: 24px;
+          margin-bottom: 32px;
+
+          .title-main {
+            font-size: 32px;
+            margin-bottom: 4px;
+          }
+
+          .title-highlight {
+            font-size: 18px;
+          }
         }
 
         .hero-stats {
-          gap: 24px;
-          margin-bottom: 24px;
+          flex-direction: column;
+          gap: 16px;
+          margin-bottom: 32px;
 
-          .stat-item {
-            .stat-number {
-              font-size: 28px;
+          .stat-card {
+            padding: 16px 24px;
+
+            .stat-item {
+              .stat-number {
+                font-size: 28px;
+              }
+
+              .stat-label {
+                font-size: 12px;
+              }
             }
           }
         }
 
-        .hero-description {
-          font-size: 16px;
+        .hero-description-wrapper {
+          .hero-description {
+            font-size: 16px;
+
+            .highlight-number {
+              font-size: 18px;
+            }
+          }
         }
       }
     }

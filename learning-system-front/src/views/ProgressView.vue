@@ -3,6 +3,15 @@
     <div class="progress-container">
       <!-- 页面头部 -->
       <div class="progress-header">
+        <!-- 学习进度装饰元素 -->
+        <div class="header-decorations">
+          <div class="decoration-item progress-icon icon-1">📊</div>
+          <div class="decoration-item progress-icon icon-2">🎯</div>
+
+          <div class="decoration-item milestone-bubble bubble-1">里程碑</div>
+          <div class="decoration-item milestone-bubble bubble-2">成就解锁</div>
+        </div>
+
         <div class="header-content">
           <div class="header-left">
             <h1 class="page-title">学习进度</h1>
@@ -913,32 +922,139 @@ onMounted(() => {
 }
 
 .progress-header {
+  position: relative;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 16px;
-  padding: 40px;
+  border-radius: 20px;
+  padding: 50px 40px;
   margin-bottom: 32px;
   color: white;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+
+  // 进度主题装饰背景
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+    animation: progressFloat 24s ease-in-out infinite;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  // 数据网格背景
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    z-index: 1;
+  }
+
+  // 学习进度装饰元素
+  .header-decorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    .decoration-item {
+      position: absolute;
+      opacity: 0.75;
+
+      &.progress-icon {
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        font-size: 18px;
+        will-change: transform;
+
+        &.icon-1 {
+          top: 28%;
+          left: 40%;
+          animation: progressPulse 4s ease-in-out infinite;
+        }
+
+        &.icon-2 {
+          bottom: 30%;
+          left: 45%;
+          animation: progressPulse 5s ease-in-out infinite 1s;
+        }
+      }
+
+      &.milestone-bubble {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        backdrop-filter: blur(15px);
+        will-change: transform;
+
+        &.bubble-1 {
+          top: 22%;
+          left: 50%;
+          transform: rotate(-3deg);
+          animation: milestoneFloat 7s ease-in-out infinite;
+        }
+
+        &.bubble-2 {
+          bottom: 25%;
+          left: 52%;
+          transform: rotate(2deg);
+          animation: milestoneFloat 8s ease-in-out infinite 1.5s;
+        }
+      }
+    }
+  }
 
   .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 10;
 
     .header-left {
       .page-title {
-        font-size: 36px;
+        font-size: 40px;
         font-weight: 700;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
         background: linear-gradient(45deg, #fff, #e3f2fd);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        letter-spacing: -0.5px;
+        line-height: 1.2;
       }
 
       .page-subtitle {
-        font-size: 16px;
-        opacity: 0.9;
+        font-size: 18px;
+        opacity: 0.95;
         margin: 0;
+        font-weight: 500;
+        line-height: 1.4;
       }
     }
 
